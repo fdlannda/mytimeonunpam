@@ -1,12 +1,15 @@
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from flask import (
     Flask,
     render_template,
     request,
     redirect
 )
+
+# Indonesia/WIB timezone (UTC+7)
+WIB = timezone(timedelta(hours=7))
 
 app = Flask(__name__)
 
@@ -137,7 +140,7 @@ def get_week_number(
 
 def get_global_week(data):
 
-    sekarang = datetime.now()
+    sekarang = datetime.now(WIB)
 
     semester_mulai = datetime.strptime(
         data["semester_mulai"],
@@ -169,8 +172,6 @@ def enrich_data(data):
 # NEXT CLASS
 # ==========================
 
-from datetime import datetime, timedelta
-
 
 def get_schedule_slots(data):
 
@@ -199,7 +200,7 @@ def get_schedule_slots(data):
 
 def get_active_slot_keys(data):
 
-    sekarang = datetime.now()
+    sekarang = datetime.now(WIB)
 
     today_name = list(HARI_MAP.keys())[sekarang.weekday()]
 
@@ -237,7 +238,7 @@ def get_active_slot_keys(data):
 
 def get_next_class(data):
 
-    sekarang = datetime.now()
+    sekarang = datetime.now(WIB)
 
     slots = get_schedule_slots(data)
     active_slot_keys = get_active_slot_keys(data)
@@ -300,7 +301,7 @@ def get_next_class(data):
 
 def get_current_class(data):
 
-    sekarang = datetime.now()
+    sekarang = datetime.now(WIB)
 
     today_name = list(HARI_MAP.keys())[sekarang.weekday()]
 
@@ -348,7 +349,7 @@ def get_current_class(data):
 
 def get_week_info(data):
 
-    sekarang = datetime.now()
+    sekarang = datetime.now(WIB)
 
     semester_mulai = datetime.strptime(
         data["semester_mulai"],
@@ -402,7 +403,7 @@ def get_week_info(data):
 
 def get_progress(data):
 
-    sekarang = datetime.now()
+    sekarang = datetime.now(WIB)
 
     semester_mulai = datetime.strptime(
         data["semester_mulai"],
