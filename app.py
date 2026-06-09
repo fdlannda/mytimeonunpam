@@ -145,7 +145,7 @@ def get_global_week(data):
     semester_mulai = datetime.strptime(
         data["semester_mulai"],
         "%Y-%m-%d"
-    )
+    ).replace(tzinfo=WIB)
 
     minggu_ke = (
         (sekarang - semester_mulai).days // 7
@@ -219,7 +219,8 @@ def get_active_slot_keys(data):
         ).replace(
             year=sekarang.year,
             month=sekarang.month,
-            day=sekarang.day
+            day=sekarang.day,
+            tzinfo=WIB
         )
 
         selesai = datetime.strptime(
@@ -228,7 +229,8 @@ def get_active_slot_keys(data):
         ).replace(
             year=sekarang.year,
             month=sekarang.month,
-            day=sekarang.day
+            day=sekarang.day,
+            tzinfo=WIB
         )
 
         if (mulai - grace_period) <= sekarang <= selesai:
@@ -320,7 +322,8 @@ def get_current_class(data):
         ).replace(
             year=sekarang.year,
             month=sekarang.month,
-            day=sekarang.day
+            day=sekarang.day,
+            tzinfo=WIB
         )
 
         selesai = datetime.strptime(
@@ -329,7 +332,8 @@ def get_current_class(data):
         ).replace(
             year=sekarang.year,
             month=sekarang.month,
-            day=sekarang.day
+            day=sekarang.day,
+            tzinfo=WIB
         )
 
         if (mulai - grace_period) <= sekarang <= selesai:
@@ -354,7 +358,7 @@ def get_week_info(data):
     semester_mulai = datetime.strptime(
         data["semester_mulai"],
         "%Y-%m-%d"
-    )
+    ).replace(tzinfo=WIB)
 
     minggu_ke = (
         (sekarang - semester_mulai).days
@@ -408,7 +412,7 @@ def get_progress(data):
     semester_mulai = datetime.strptime(
         data["semester_mulai"],
         "%Y-%m-%d"
-    )
+    ).replace(tzinfo=WIB)
 
     total_minggu = 16
 
