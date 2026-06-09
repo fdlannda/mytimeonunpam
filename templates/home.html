@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        MyTimeOnUNPAM
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top-bar">
+
+        <div class="brand-mark">
+            MyTimeOnUNPAM
+        </div>
+
+        <button class="theme-btn" onclick="toggleTheme()">
+            🌙 Nyalakan Dark Mode
+        </button>
+
+    </div>
+
+    <div class="hero-card">
+
+        <h1>
+            🎓 MyTimeOnUNPAM
+        </h1>
+
+        <p>
+            Sistem Informasi Jadwal Kuliah Mahasiswa Universitas Pamulang
+        </p>
+
+    </div>
+
+    <div class="clock-card home-clock-card">
+
+        <div class="clock-kicker">
+            Waktu Sekarang
+        </div>
+
+        <h2 id="live-clock">Loading...</h2>
+
+        <p id="today-date"></p>
+
+        <p id="today-detail"></p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+            📚 Pilih Jadwal Kuliah
+        </h2>
+
+        <form
+            action="/open"
+            method="POST">
+
+            <label>
+                Jurusan
+            </label>
+
+            <select
+                name="jurusan"
+                id="jurusan"
+                required>
+
+                {% for j in jurusan %}
+
+                <option value="{{ j }}">
+                    {{ j }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <label>
+                Semester
+            </label>
+
+            <select
+                name="semester"
+                id="semester"
+                required>
+
+                {% for s in semester %}
+
+                <option value="{{ s }}">
+                    Semester {{ s }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <label>
+                Kelas
+            </label>
+
+            <select
+                name="kelas"
+                id="kelas"
+                required>
+
+            </select>
+
+            <button
+                type="submit">
+
+                🚀 Lihat Jadwal
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+            ℹ️ Tentang MyTimeOnUNPAM
+        </h2>
+
+        <ul>
+
+            <li>
+                Menampilkan jadwal kuliah lengkap.
+            </li>
+
+            <li>
+                Menampilkan mata kuliah berikutnya secara realtime.
+            </li>
+
+            <li>
+                Menampilkan status kuliah yang sedang berlangsung.
+            </li>
+
+            <li>
+                Menampilkan informasi minggu akademik.
+            </li>
+
+            <li>
+                Menampilkan progress semester.
+            </li>
+
+            <li>
+                Mendukung banyak jurusan, semester, dan kelas.
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+<script>
+
+function applySavedTheme(){
+
+    const savedTheme = localStorage.getItem("theme");
+
+    if(savedTheme === "dark"){
+        document.body.classList.add("dark");
+    }
+
+    updateThemeButtonLabel();
+
+}
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    if(document.body.classList.contains("dark")){
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
+
+    updateThemeButtonLabel();
+
+}
+
+function updateThemeButtonLabel(){
+
+    const themeButtons = document.querySelectorAll(".theme-btn");
+
+    const label = document.body.classList.contains("dark")
+        ? "☀️ Matikan Dark Mode"
+        : "🌙 Nyalakan Dark Mode";
+
+    themeButtons.forEach(function(button){
+        button.innerText = label;
+    });
+
+}
+
+function updateClock(){
+
+    const now = new Date();
+
+    document.getElementById("live-clock").innerText =
+        now.toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        }) + " WIB";
+
+    document.getElementById("today-date").innerText =
+        now.toLocaleDateString("id-ID", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+
+    document.getElementById("today-detail").innerText =
+        "Jam: " +
+        now.toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        }) +
+        " • Hari ini";
+
+}
+
+applySavedTheme();
+setInterval(updateClock, 1000);
+updateClock();
+
+async function loadClasses(){
+
+    const jurusan =
+        document.getElementById(
+            "jurusan"
+        ).value
+
+    const semester =
+        document.getElementById(
+            "semester"
+        ).value
+
+    const response =
+        await fetch(
+            `/get_classes?jurusan=${jurusan}&semester=${semester}`
+        )
+
+    const data =
+        await response.json()
+
+    const kelasSelect =
+        document.getElementById(
+            "kelas"
+        )
+
+    kelasSelect.innerHTML = ""
+
+    if(data.classes.length === 0){
+
+        kelasSelect.innerHTML =
+            `
+            <option value="">
+                Tidak Ada Kelas
+            </option>
+            `
+
+        return
+    }
+
+    data.classes.forEach(
+        function(kelas){
+
+            kelasSelect.innerHTML +=
+                `
+                <option value="${kelas}">
+                    ${kelas}
+                </option>
+                `
+        }
+    )
+}
+
+document
+.getElementById(
+    "jurusan"
+)
+.addEventListener(
+    "change",
+    loadClasses
+)
+
+document
+.getElementById(
+    "semester"
+)
+.addEventListener(
+    "change",
+    loadClasses
+)
+
+window.onload =
+    loadClasses
+
+</script>
+
+</body>
+</html>

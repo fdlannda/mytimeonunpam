@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {{ jurusan }} -
+        Semester {{ semester }} -
+        {{ kelas }}
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top-bar">
+
+        <a href="/" class="back-btn">
+            ← Kembali
+        </a>
+
+        <button class="theme-btn" onclick="toggleTheme()">
+            🌙 Nyalakan Dark Mode
+        </button>
+
+    </div>
+
+    <h1>
+        🎓 {{ jurusan }}
+        Semester {{ semester }}
+        -
+        {{ kelas }}
+    </h1>
+
+    <div class="clock-card">
+
+        <h2 id="live-clock">Loading...</h2>
+
+        <p id="today-date"></p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>📅 Informasi Akademik</h2>
+
+        <p>Minggu Ke-{{ minggu_ke }}</p>
+
+        <p>Sistem : {{ mode_akademik }}</p>
+
+        <p>{{ keterangan_akademik }}</p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>📈 Progress Semester</h2>
+
+        <div class="progress">
+            <div class="progress-bar" data-progress="{{ progress }}"></div>
+        </div>
+
+        <p>{{ progress }}%</p>
+
+    </div>
+
+    <div class="schedule-dual-cards">
+
+    <!-- CURRENT CLASS -->
+    <div class="card schedule-panel">
+
+        {% if current_class and current_class|length > 0 %}
+
+        <h2>🟢 Kelas Berlangsung</h2>
+
+        <div class="current-class-grid {% if current_class|length == 1 %}single-item{% endif %}">
+
+        {% for cls in current_class %}
+
+        <div class="next-class-item current-class-item {% if cls.mode == '💻 Online' %}mode-online{% else %}mode-offline{% endif %}">
+
+            <h3>{{ cls.matkul }}</h3>
+
+            <p class="meta-line">
+                <span class="meta-label">🗓 Hari</span>
+                <span class="meta-value">Ini</span>
+            </p>
+
+            <p class="meta-line">
+                <span class="meta-label">⏰ Mulai</span>
+                <span class="meta-value">{{ cls.mulai }}</span>
+            </p>
+
+            <p class="meta-line">
+                <span class="meta-label">⏰ Selesai</span>
+                <span class="meta-value">{{ cls.selesai }}</span>
+            </p>
+
+            <p class="meta-line">
+                <span class="meta-label">👨‍🏫 Dosen</span>
+                <span class="meta-value">{{ cls.dosen }}</span>
+            </p>
+
+            <p class="meta-line">
+                <span class="meta-label">🏫 Ruang</span>
+                <span class="meta-value">{{ cls.ruang }}</span>
+            </p>
+
+            <p class="mode-badge {% if cls.mode == '💻 Online' %}mode-online{% else %}mode-offline{% endif %}">
+                {{ cls.mode }}
+            </p>
+
+            <p class="mode-note">
+                Sisa waktu
+            </p>
+
+                <p class="countdown meta-line countdown-line"
+               data-seconds="{{ cls.countdown }}">
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+        {% else %}
+
+        <h2>🔴 Tidak Ada Kuliah Saat Ini</h2>
+
+        {% endif %}
+
+    </div>
+
+    <!-- NEXT CLASS (MULTI SLOT FIX) -->
+    <div class="card schedule-panel">
+
+        <h2>📚 Kelas Berikutnya</h2>
+
+        {% if next_class and next_class|length > 0 %}
+
+        <div class="next-class-grid {% if next_class|length == 1 %}single-item{% endif %}">
+
+            {% for cls in next_class %}
+
+            <div class="next-class-item {% if cls.mode == '💻 Online' %}mode-online{% else %}mode-offline{% endif %}">
+
+                <h3>{{ cls.matkul }}</h3>
+
+                <p class="meta-line">
+                    <span class="meta-label">🗓 Hari</span>
+                    <span class="meta-value">{{ cls.hari }}</span>
+                </p>
+
+                <p class="meta-line">
+                    <span class="meta-label">⏰ Mulai</span>
+                    <span class="meta-value">{{ cls.mulai }}</span>
+                </p>
+
+                <p class="meta-line">
+                    <span class="meta-label">⏰ Selesai</span>
+                    <span class="meta-value">{{ cls.selesai }}</span>
+                </p>
+
+                <p class="meta-line">
+                    <span class="meta-label">👨‍🏫 Dosen</span>
+                    <span class="meta-value">{{ cls.dosen }}</span>
+                </p>
+
+                <p class="meta-line">
+                    <span class="meta-label">🏫 Ruang</span>
+                    <span class="meta-value">{{ cls.ruang }}</span>
+                </p>
+
+                <p class="mode-badge {% if cls.mode == '💻 Online' %}mode-online{% else %}mode-offline{% endif %}">
+                    {{ cls.mode }}
+                </p>
+
+                <p class="mode-note">
+                    Mulai dalam
+                </p>
+
+                     <p class="countdown meta-line countdown-line"
+                   data-seconds="{{ cls.countdown }}">
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+            <h3>Tidak ada jadwal lagi hari ini</h3>
+
+        {% endif %}
+
+    </div>
+
+    </div>
+
+    <!-- FULL SCHEDULE -->
+    <div class="card">
+
+        <h2>📅 Jadwal Lengkap</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Periode</th>
+                    <th>Jam</th>
+                    <th>Mata Kuliah</th>
+                    <th>Dosen</th>
+                    <th>Ruang</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for item in jadwal %}
+
+                <tr>
+
+                    <td>{{ item.periode }}</td>
+
+                    <td>{{ item.mulai }} - {{ item.selesai }}</td>
+
+                    <td>{{ item.matkul }}</td>
+
+                    <td>{{ item.dosen }}</td>
+
+                    <td>{{ item.ruang }}</td>
+
+                    <td>{{ item.mode }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+function applySavedTheme(){
+
+    const savedTheme = localStorage.getItem("theme");
+
+    if(savedTheme === "dark"){
+        document.body.classList.add("dark");
+    }
+
+    updateThemeButtonLabel();
+
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+
+    if(document.body.classList.contains("dark")){
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
+
+    updateThemeButtonLabel();
+}
+
+function updateThemeButtonLabel(){
+
+    const themeButtons = document.querySelectorAll(".theme-btn");
+
+    const label = document.body.classList.contains("dark")
+        ? "☀️ Matikan Dark Mode"
+        : "🌙 Nyalakan Dark Mode";
+
+    themeButtons.forEach(function(button){
+        button.innerText = label;
+    });
+
+}
+
+/* CLOCK */
+function updateClock(){
+
+    const now = new Date();
+
+    document.getElementById("live-clock").innerText =
+        now.toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        }) + " WIB";
+
+    document.getElementById("today-date").innerText =
+        now.toLocaleDateString("id-ID", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+
+}
+
+applySavedTheme();
+setInterval(updateClock, 1000);
+updateClock();
+
+
+/* COUNTDOWN MULTI ELEMENT */
+function renderCountdown(el){
+
+    let seconds = parseInt(el.dataset.seconds);
+
+    if (isNaN(seconds) || seconds < 0) {
+        seconds = 0;
+    }
+
+    function update(){
+
+        let total = Math.max(seconds, 0);
+        let hari = Math.floor(total / 86400);
+        let jam = Math.floor((total % 86400) / 3600);
+        let menit = Math.floor((total % 3600) / 60);
+        let detik = total % 60;
+
+        if (total <= 0) {
+            el.innerText = "⏳ Selesai";
+            return;
+        }
+
+        el.innerText =
+            `⏳ ${hari} hari ${jam} jam ${menit} menit ${detik} detik lagi`;
+
+        if(seconds > 0){
+            seconds--;
+        }
+
+    }
+
+    update();
+    setInterval(update, 1000);
+
+}
+
+document.querySelectorAll(".countdown").forEach(function(el){
+
+    renderCountdown(el);
+
+});
+
+
+/* PROGRESS BAR */
+const progressBar = document.querySelector(".progress-bar");
+
+if(progressBar){
+    progressBar.style.width = progressBar.dataset.progress + "%";
+}
+
+
+</script>
+
+</body>
+</html>

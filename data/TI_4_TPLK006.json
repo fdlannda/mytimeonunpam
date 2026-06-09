@@ -1,0 +1,82 @@
+{
+  "jurusan": "TI",
+  "semester": 4,
+  "kelas": "TPLK006",
+  "reguler": "CK",
+  "semester_mulai": "2026-03-02",
+
+  "jadwal": [
+    {
+      "periode": 1,
+      "hari": "Minggu",
+      "mulai": "03:03",
+      "selesai": "03:20",
+      "matkul": "Basis Data I",
+      "dosen": "Sopiyan Apandi",
+      "ruang": "V.101"
+    },
+    {
+      "periode": 1,
+      "hari": "Kamis",
+      "mulai": "09:20",
+      "selesai": "11:00",
+      "matkul": "Pemrograman I",
+      "dosen": "Ari Syaripudin",
+      "ruang": "V.101"
+    },
+    {
+      "periode": 1,
+      "hari": "Kamis",
+      "mulai": "11:00",
+      "selesai": "13:50",
+      "matkul": "Teori Bahasa dan Automata",
+      "dosen": "Resti Amalia",
+      "ruang": "V.101"
+    },
+    {
+      "periode": 1,
+      "hari": "Kamis",
+      "mulai": "16:00",
+      "selesai": "17:40",
+      "matkul": "Data Mining",
+      "dosen": "Dede Supiyan",
+      "ruang": "V.101"
+    },
+    {
+      "periode": 2,
+      "hari": "Minggu",
+      "mulai": "03:03",
+      "selesai": "09:20",
+      "matkul": "Interaksi Manusia Dengan Komputer",
+      "dosen": "Syaeful Machfud",
+      "ruang": "V.101"
+    },
+    {
+      "periode": 2,
+      "hari": "Kamis",
+      "mulai": "09:20",
+      "selesai": "11:00",
+      "matkul": "Cloud Computing",
+      "dosen": "Halili Maar",
+      "ruang": "V.101"
+    },
+    {
+      "periode": 2,
+      "hari": "Kamis",
+      "mulai": "11:00",
+      "selesai": "13:50",
+      "matkul": "Metode Numerik",
+      "dosen": "Jupron",
+      "ruang": "V.101"
+    },
+    {
+      "periode": 2,
+      "hari": "Kamis",
+      "mulai": "16:00",
+      "selesai": "17:40",
+      "matkul": "Analisa dan Perancangan Sistem",
+      "dosen": "Iwan Giri Waluyo",
+      "ruang": "V.101"
+    }
+  ]
+}
