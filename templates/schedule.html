@@ -79,27 +79,38 @@
 
         <h2>🟢 Kelas Berlangsung</h2>
 
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all" data-target="current">Semua</button>
+            <button class="filter-tab" data-filter="online" data-target="current">💻 Online</button>
+            <button class="filter-tab" data-filter="offline" data-target="current">🏫 Offline</button>
+        </div>
+
         <div class="current-class-grid {% if current_class|length == 1 %}single-item{% endif %}">
 
         {% for cls in current_class %}
 
-        <div class="next-class-item current-class-item {% if cls.mode == '💻 Online' %}mode-online{% else %}mode-offline{% endif %}">
+        <div class="next-class-item current-class-item {% if cls.mode == '💻 Online' %}mode-online{% else %}mode-offline{% endif %}" data-mode="{% if cls.mode == '💻 Online' %}online{% else %}offline{% endif %}">
 
-            <h3>{{ cls.matkul }}</h3>
+            <h3>{{ cls.mata_kuliah }}</h3>
 
             <p class="meta-line">
-                <span class="meta-label">🗓 Hari</span>
+                <span class="meta-label">� SKS</span>
+                <span class="meta-value">{{ cls.sks if cls.sks else '-' }}</span>
+            </p>
+
+            <p class="meta-line">
+                <span class="meta-label">� Hari</span>
                 <span class="meta-value">Ini</span>
             </p>
 
             <p class="meta-line">
                 <span class="meta-label">⏰ Mulai</span>
-                <span class="meta-value">{{ cls.mulai }}</span>
+                <span class="meta-value">{{ cls.jam_mulai }}</span>
             </p>
 
             <p class="meta-line">
                 <span class="meta-label">⏰ Selesai</span>
-                <span class="meta-value">{{ cls.selesai }}</span>
+                <span class="meta-value">{{ cls.jam_selesai }}</span>
             </p>
 
             <p class="meta-line">
@@ -109,7 +120,7 @@
 
             <p class="meta-line">
                 <span class="meta-label">🏫 Ruang</span>
-                <span class="meta-value">{{ cls.ruang }}</span>
+                <span class="meta-value">{{ cls.ruang if cls.ruang else 'Mentari' }}</span>
             </p>
 
             <p class="mode-badge {% if cls.mode == '💻 Online' %}mode-online{% else %}mode-offline{% endif %}">
@@ -145,13 +156,24 @@
 
         {% if next_class and next_class|length > 0 %}
 
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all" data-target="next">Semua</button>
+            <button class="filter-tab" data-filter="online" data-target="next">💻 Online</button>
+            <button class="filter-tab" data-filter="offline" data-target="next">🏫 Offline</button>
+        </div>
+
         <div class="next-class-grid {% if next_class|length == 1 %}single-item{% endif %}">
 
             {% for cls in next_class %}
 
-            <div class="next-class-item {% if cls.mode == '💻 Online' %}mode-online{% else %}mode-offline{% endif %}">
+            <div class="next-class-item {% if cls.mode == '💻 Online' %}mode-online{% else %}mode-offline{% endif %}" data-mode="{% if cls.mode == '💻 Online' %}online{% else %}offline{% endif %}">
 
-                <h3>{{ cls.matkul }}</h3>
+                <h3>{{ cls.mata_kuliah }}</h3>
+
+                <p class="meta-line">
+                    <span class="meta-label">📚 SKS</span>
+                    <span class="meta-value">{{ cls.sks if cls.sks else '-' }}</span>
+                </p>
 
                 <p class="meta-line">
                     <span class="meta-label">🗓 Hari</span>
@@ -160,12 +182,12 @@
 
                 <p class="meta-line">
                     <span class="meta-label">⏰ Mulai</span>
-                    <span class="meta-value">{{ cls.mulai }}</span>
+                    <span class="meta-value">{{ cls.jam_mulai }}</span>
                 </p>
 
                 <p class="meta-line">
                     <span class="meta-label">⏰ Selesai</span>
-                    <span class="meta-value">{{ cls.selesai }}</span>
+                    <span class="meta-value">{{ cls.jam_selesai }}</span>
                 </p>
 
                 <p class="meta-line">
@@ -175,7 +197,7 @@
 
                 <p class="meta-line">
                     <span class="meta-label">🏫 Ruang</span>
-                    <span class="meta-value">{{ cls.ruang }}</span>
+                    <span class="meta-value">{{ cls.ruang if cls.ruang else 'Mentari' }}</span>
                 </p>
 
                 <p class="mode-badge {% if cls.mode == '💻 Online' %}mode-online{% else %}mode-offline{% endif %}">
@@ -216,7 +238,7 @@
             <thead>
 
                 <tr>
-                    <th>Periode</th>
+                    <th>Hari</th>
                     <th>Jam</th>
                     <th>Mata Kuliah</th>
                     <th>Dosen</th>
@@ -232,15 +254,15 @@
 
                 <tr>
 
-                    <td>{{ item.periode }}</td>
+                    <td>{{ item.hari }}</td>
 
-                    <td>{{ item.mulai }} - {{ item.selesai }}</td>
+                    <td>{{ item.jam_mulai }} - {{ item.jam_selesai }}</td>
 
-                    <td>{{ item.matkul }}</td>
+                    <td>{{ item.mata_kuliah }}</td>
 
                     <td>{{ item.dosen }}</td>
 
-                    <td>{{ item.ruang }}</td>
+                    <td>{{ item.ruang if item.ruang else 'Mentari' }}</td>
 
                     <td>{{ item.mode }}</td>
 
@@ -372,6 +394,46 @@ const progressBar = document.querySelector(".progress-bar");
 if(progressBar){
     progressBar.style.width = progressBar.dataset.progress + "%";
 }
+
+
+/* FILTER FUNCTIONALITY */
+function setupFilters() {
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const target = this.dataset.target;
+            const filter = this.dataset.filter;
+            
+            // Remove active class from all tabs in the same group
+            document.querySelectorAll(`.filter-tab[data-target="${target}"]`).forEach(t => {
+                t.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            this.classList.add('active');
+            
+            // Filter the items
+            const grid = target === 'current' 
+                ? document.querySelector('.current-class-grid')
+                : document.querySelector('.next-class-grid');
+            
+            if (grid) {
+                const items = grid.querySelectorAll('.next-class-item');
+                items.forEach(item => {
+                    const itemMode = item.dataset.mode;
+                    if (filter === 'all' || itemMode === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        });
+    });
+}
+
+setupFilters();
 
 
 </script>

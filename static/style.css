@@ -398,6 +398,108 @@ td{
 
 }
 
+.filter-tabs{
+
+    display:flex;
+
+    gap:8px;
+
+    margin-bottom:16px;
+
+    flex-wrap:wrap;
+
+}
+
+.filter-tab{
+
+    flex:1;
+
+    min-width:80px;
+
+    padding:8px 16px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:8px;
+
+    background:white;
+
+    color:#374151;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:all 0.2s ease;
+
+    margin:0;
+
+}
+
+.filter-tab:hover{
+
+    background:#f3f4f6;
+
+    border-color:#9ca3af;
+
+}
+
+.filter-tab.active{
+
+    background:#2563eb;
+
+    color:white;
+
+    border-color:#2563eb;
+
+}
+
+.filter-tab.active:hover{
+
+    background:#1d4ed8;
+
+    border-color:#1d4ed8;
+
+}
+
+.dark .filter-tab{
+
+    background:#374151;
+
+    color:#f9fafb;
+
+    border-color:#4b5563;
+
+}
+
+.dark .filter-tab:hover{
+
+    background:#4b5563;
+
+    border-color:#6b7280;
+
+}
+
+.dark .filter-tab.active{
+
+    background:#3b82f6;
+
+    color:white;
+
+    border-color:#3b82f6;
+
+}
+
+.dark .filter-tab.active:hover{
+
+    background:#2563eb;
+
+    border-color:#2563eb;
+
+}
+
 .schedule-panel .next-class-item h3{
 
     font-size:clamp(16px, 1.4vw, 18px);
