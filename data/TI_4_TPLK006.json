@@ -1,82 +1,108 @@
 {
-  "jurusan": "TI",
+  "jurusan": "Teknik Informatika",
   "semester": 4,
-  "kelas": "TPLK006",
+  "kelas": "04TPLK006",
   "reguler": "CK",
   "semester_mulai": "2026-03-02",
+  "semester_selesai": "2026-07-04",
+  "uts_date": "2026-05-15",
+  "uas_date": "2026-07-04",
 
   "jadwal": [
     {
-      "periode": 1,
-      "hari": "Minggu",
-      "mulai": "03:03",
-      "selesai": "03:20",
-      "matkul": "Basis Data I",
+      "hari": "Kamis",
+      "jam_mulai": "07:40",
+      "jam_selesai": "09:20",
+      "mata_kuliah": "Basis Data I",
+      "sks": 3,
       "dosen": "Sopiyan Apandi",
-      "ruang": "V.101"
+      "ruang": "V.101",
+      "kode_mk": "22TIF0193",
+      "periode": 1
     },
+
     {
-      "periode": 1,
       "hari": "Kamis",
-      "mulai": "09:20",
-      "selesai": "11:00",
-      "matkul": "Pemrograman I",
+      "jam_mulai": "09:20",
+      "jam_selesai": "11:00",
+      "mata_kuliah": "Pemrograman I",
+      "sks": 3,
       "dosen": "Ari Syaripudin",
-      "ruang": "V.101"
+      "ruang": "V.101",
+      "kode_mk": "22TIF0203",
+      "periode": 1
     },
+
     {
-      "periode": 1,
       "hari": "Kamis",
-      "mulai": "11:00",
-      "selesai": "13:50",
-      "matkul": "Teori Bahasa dan Automata",
+      "jam_mulai": "11:00",
+      "jam_selesai": "13:50",
+      "mata_kuliah": "Teori Bahasa dan Automata",
+      "sks": 2,
       "dosen": "Resti Amalia",
-      "ruang": "V.101"
+      "ruang": "V.101",
+      "kode_mk": "22TIF0172",
+      "periode": 1
     },
+
     {
-      "periode": 1,
       "hari": "Kamis",
-      "mulai": "16:00",
-      "selesai": "17:40",
-      "matkul": "Data Mining",
+      "jam_mulai": "16:00",
+      "jam_selesai": "17:40",
+      "mata_kuliah": "Data Mining",
+      "sks": 2,
       "dosen": "Dede Supiyan",
-      "ruang": "V.101"
+      "ruang": "V.101",
+      "kode_mk": "22TIF0162",
+      "periode": 1
     },
+
     {
-      "periode": 2,
-      "hari": "Minggu",
-      "mulai": "03:03",
-      "selesai": "09:20",
-      "matkul": "Interaksi Manusia Dengan Komputer",
+      "hari": "Kamis",
+      "jam_mulai": "07:40",
+      "jam_selesai": "09:20",
+      "mata_kuliah": "Interaksi Manusia Dengan Komputer",
+      "sks": 2,
       "dosen": "Syaeful Machfud",
-      "ruang": "V.101"
+      "ruang": "V.101",
+      "kode_mk": "22TIF0182",
+      "periode": 2
     },
+
     {
-      "periode": 2,
       "hari": "Kamis",
-      "mulai": "09:20",
-      "selesai": "11:00",
-      "matkul": "Cloud Computing",
+      "jam_mulai": "09:20",
+      "jam_selesai": "11:00",
+      "mata_kuliah": "Cloud Computing",
+      "sks": 3,
       "dosen": "Halili Maar",
-      "ruang": "V.101"
+      "ruang": "V.101",
+      "kode_mk": "22TIF0223",
+      "periode": 2
     },
+
     {
-      "periode": 2,
       "hari": "Kamis",
-      "mulai": "11:00",
-      "selesai": "13:50",
-      "matkul": "Metode Numerik",
+      "jam_mulai": "11:00",
+      "jam_selesai": "13:50",
+      "mata_kuliah": "Metode Numerik",
+      "sks": 3,
       "dosen": "Jupron",
-      "ruang": "V.101"
+      "ruang": "V.101",
+      "kode_mk": "22TIF0213",
+      "periode": 2
     },
+
     {
-      "periode": 2,
       "hari": "Kamis",
-      "mulai": "16:00",
-      "selesai": "17:40",
-      "matkul": "Analisa dan Perancangan Sistem",
+      "jam_mulai": "16:00",
+      "jam_selesai": "17:40",
+      "mata_kuliah": "Analisa dan Perancangan Sistem",
+      "sks": 2,
       "dosen": "Iwan Giri Waluyo",
-      "ruang": "V.101"
+      "ruang": "V.101",
+      "kode_mk": "22TIF0232",
+      "periode": 2
     }
   ]
 }

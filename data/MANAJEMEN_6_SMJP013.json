@@ -1,0 +1,134 @@
+{
+  "jurusan": "Manajemen",
+  "semester": 6,
+  "kelas": "06SMJM013",
+  "reguler": "B",
+  "semester_mulai": "2026-03-02",
+  "semester_selesai": "2026-07-04",
+
+  "jadwal": [
+    {
+      "hari": "Senin",
+      "jam_mulai": "18:20",
+      "jam_selesai": "20:00",
+      "mata_kuliah": "Riset Operasi",
+      "mode": "offline",
+      "sks": 2,
+      "dosen": "Randhy Agusentoso",
+      "ruang": "531"
+    },
+    {
+      "hari": "Senin",
+      "jam_mulai": "18:20",
+      "jam_selesai": "20:00",
+      "mata_kuliah": "Riset Operasi",
+      "mode": "online",
+      "sks": 1,
+      "dosen": "Randhy Agusentoso"
+    },
+
+    {
+      "hari": "Senin",
+      "jam_mulai": "20:00",
+      "jam_selesai": "21:40",
+      "mata_kuliah": "Manajemen Investasi",
+      "mode": "offline",
+      "sks": 2,
+      "dosen": "Yusran Daeng Matta",
+      "ruang": "531"
+    },
+
+    {
+      "hari": "Selasa",
+      "jam_mulai": "20:00",
+      "jam_selesai": "21:40",
+      "mata_kuliah": "Perpajakan Dasar",
+      "mode": "offline",
+      "sks": 2,
+      "dosen": "Yulianto",
+      "ruang": "531"
+    },
+    {
+      "hari": "Selasa",
+      "jam_mulai": "20:00",
+      "jam_selesai": "21:40",
+      "mata_kuliah": "Perpajakan Dasar",
+      "mode": "online",
+      "sks": 1,
+      "dosen": "Yulianto"
+    },
+
+    {
+      "hari": "Rabu",
+      "jam_mulai": "18:20",
+      "jam_selesai": "20:00",
+      "mata_kuliah": "Manajemen Strategi SDM",
+      "mode": "offline",
+      "sks": 2,
+      "dosen": "Hadyati Harras",
+      "ruang": "531"
+    },
+
+    {
+      "hari": "Rabu",
+      "jam_mulai": "20:00",
+      "jam_selesai": "21:40",
+      "mata_kuliah": "E-Commerce",
+      "mode": "offline",
+      "sks": 2,
+      "dosen": "Yeni Liana Sari",
+      "ruang": "531"
+    },
+
+    {
+      "hari": "Kamis",
+      "jam_mulai": "18:20",
+      "jam_selesai": "20:00",
+      "mata_kuliah": "Ekonomi Manajerial",
+      "mode": "offline",
+      "sks": 2,
+      "dosen": "Hasanudin",
+      "ruang": "531"
+    },
+    {
+      "hari": "Kamis",
+      "jam_mulai": "18:20",
+      "jam_selesai": "20:00",
+      "mata_kuliah": "Ekonomi Manajerial",
+      "mode": "online",
+      "sks": 1,
+      "dosen": "Hasanudin"
+    },
+
+    {
+      "hari": "Kamis",
+      "jam_mulai": "20:00",
+      "jam_selesai": "21:40",
+      "mata_kuliah": "Manajemen Kompensasi dan Hubungan Industrial",
+      "mode": "offline",
+      "sks": 2,
+      "dosen": "Irma Sari Octaviani",
+      "ruang": "531"
+    },
+
+    {
+      "hari": "Jumat",
+      "jam_mulai": "18:20",
+      "jam_selesai": "20:00",
+      "mata_kuliah": "Manajemen Jasa",
+      "mode": "offline",
+      "sks": 2,
+      "dosen": "Noto Susanto",
+      "ruang": "531"
+    },
+    {
+      "hari": "Jumat",
+      "jam_mulai": "18:20",
+      "jam_selesai": "20:00",
+      "mata_kuliah": "Manajemen Jasa",
+      "mode": "online",
+      "sks": 1,
+      "dosen": "Noto Susanto"
+    }
+  ]
+}

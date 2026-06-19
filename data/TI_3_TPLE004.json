@@ -1,83 +1,108 @@
 {
-  "jurusan": "TI",
+  "jurusan": "Teknik Informatika",
   "semester": 3,
   "kelas": "03TPLE004",
-  "reguler": "CS",
+  "reguler": "C",
   "semester_mulai": "2026-03-02",
+  "semester_selesai": "2026-07-04",
+  "uts_date": "2026-05-15",
+  "uas_date": "2026-07-04",
 
   "jadwal": [
     {
-      "periode": 1,
       "hari": "Sabtu",
-      "mulai": "07:40",
-      "selesai": "09:20",
-      "matkul": "Aljabar Linier dan Matriks",
+      "jam_mulai": "07:40",
+      "jam_selesai": "09:20",
+      "mata_kuliah": "Aljabar Linier dan Matriks",
+      "sks": 2,
       "dosen": "Widyah Noviana",
-      "ruang": "V.127"
-    },
-    {
-      "periode": 1,
-      "hari": "Sabtu",
-      "mulai": "09:20",
-      "selesai": "11:00",
-      "matkul": "Graph Terapan",
-      "dosen": "Susanna Dwi Yulianti Kusuma",
-      "ruang": "V.127"
-    },
-    {
-      "periode": 1,
-      "hari": "Sabtu",
-      "mulai": "11:00",
-      "selesai": "13:50",
-      "matkul": "Struktur Data",
-      "dosen": "Ines Heidiani Ikasari",
-      "ruang": "V.127"
-    },
-    {
-      "periode": 1,
-      "hari": "Sabtu",
-      "mulai": "13:50",
-      "selesai": "15:30",
-      "matkul": "Algoritma dan Pemrograman II",
-      "dosen": "Eka Sri Rahayu",
-      "ruang": "V.127"
+      "ruang": "V.127",
+      "kode_mk": "22ILK0042",
+      "periode": 1
     },
 
     {
-      "periode": 2,
       "hari": "Sabtu",
-      "mulai": "07:40",
-      "selesai": "09:20",
-      "matkul": "Matematika Diskrit",
+      "jam_mulai": "09:20",
+      "jam_selesai": "11:00",
+      "mata_kuliah": "Graph Terapan",
+      "sks": 2,
+      "dosen": "Susanna Dwi Yulianti Kusuma",
+      "ruang": "V.127",
+      "kode_mk": "22TIF0122",
+      "periode": 1
+    },
+
+    {
+      "hari": "Sabtu",
+      "jam_mulai": "11:00",
+      "jam_selesai": "13:50",
+      "mata_kuliah": "Struktur Data",
+      "sks": 3,
+      "dosen": "Ines Heidiani Ikasari",
+      "ruang": "V.127",
+      "kode_mk": "22TIF0103",
+      "periode": 1
+    },
+
+    {
+      "hari": "Sabtu",
+      "jam_mulai": "13:50",
+      "jam_selesai": "15:30",
+      "mata_kuliah": "Algoritma dan Pemrograman II",
+      "sks": 3,
+      "dosen": "Eka Sri Rahayu",
+      "ruang": "V.127",
+      "kode_mk": "22TIF0113",
+      "periode": 1
+    },
+
+    {
+      "hari": "Sabtu",
+      "jam_mulai": "07:40",
+      "jam_selesai": "09:20",
+      "mata_kuliah": "Matematika Diskrit",
+      "sks": 2,
       "dosen": "Meidy Fajar Wahyu",
-      "ruang": "V.127"
+      "ruang": "V.127",
+      "kode_mk": "22TIF0142",
+      "periode": 2
     },
+
     {
-      "periode": 2,
       "hari": "Sabtu",
-      "mulai": "11:00",
-      "selesai": "13:50",
-      "matkul": "Jaringan Komputer",
+      "jam_mulai": "11:00",
+      "jam_selesai": "13:50",
+      "mata_kuliah": "Jaringan Komputer",
+      "sks": 3,
       "dosen": "Halili Maar",
-      "ruang": "V.127"
+      "ruang": "V.127",
+      "kode_mk": "22TIF0133",
+      "periode": 2
     },
+
     {
-      "periode": 2,
       "hari": "Sabtu",
-      "mulai": "13:50",
-      "selesai": "15:30",
-      "matkul": "Statistika dan Probabilitas",
+      "jam_mulai": "13:50",
+      "jam_selesai": "15:30",
+      "mata_kuliah": "Statistika dan Probabilitas",
+      "sks": 3,
       "dosen": "Anggreita Tiara Putri",
-      "ruang": "V.127"
+      "ruang": "V.127",
+      "kode_mk": "22TIF0093",
+      "periode": 2
     },
+
     {
-      "periode": 2,
       "hari": "Sabtu",
-      "mulai": "16:00",
-      "selesai": "17:40",
-      "matkul": "Sistem Berkas",
+      "jam_mulai": "16:00",
+      "jam_selesai": "17:40",
+      "mata_kuliah": "Sistem Berkas",
+      "sks": 2,
       "dosen": "Agus Wiranto",
-      "ruang": "V.127"
+      "ruang": "V.127",
+      "kode_mk": "22TIF0152",
+      "periode": 2
     }
   ]
 }
