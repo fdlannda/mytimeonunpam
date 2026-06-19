@@ -88,37 +88,42 @@ def load_data(
 def get_mode(
     item,
     minggu_ke,
-    reguler
+    reguler,
+    data=None
 ):
 
-    periode = item.get("periode")
-
-    # Reguler A/B: pola ganjil/genap.
-    # Minggu ganjil (1,3,5,7,9,11,13,15): matkul dengan elearning=true menjadi Online, lainnya Tatap Muka.
-    # Minggu genap (2,4,6,8,10,12,14,16): semua matkul Tatap Muka.
+    # Reguler A/B: mode ditentukan oleh SKS, bukan minggu ganjil/genap.
+    # 3 SKS = ada sesi offline dan online
+    # 2 SKS = hanya sesi offline
+    # Mode sudah ditentukan di JSON (field "mode")
     if reguler in REG_AB:
-
-        if (
-            minggu_ke % 2 == 1  # Minggu ganjil
-            and
-            item.get("elearning", False) is True
-        ):
-            return "💻 Online"
-
-        return "🏫 Tatap Muka"
+        return item.get("mode", "🏫 Tatap Muka")
 
     # Reguler CK/CS: berbasis periode, dibalik setelah UTS.
-    if reguler in REG_CK_CS:
+    if reguler in REG_CK_CS and data is not None:
 
-        sebelum_uts = minggu_ke <= 8
+        # Tentukan periode saat ini berdasarkan tanggal UTS dan UAS
+        sekarang = datetime.now(WIB)
+        uts_date = datetime.strptime(data.get("uts_date", "2026-05-15"), "%Y-%m-%d").replace(tzinfo=WIB)
+        uas_date = datetime.strptime(data.get("uas_date", "2026-07-04"), "%Y-%m-%d").replace(tzinfo=WIB)
 
-        if periode == 1:
-            return "🏫 Tatap Muka" if sebelum_uts else "💻 Online"
+        periode_saat_ini = 1 if sekarang < uts_date else 2
 
-        if periode == 2:
-            return "💻 Online" if sebelum_uts else "🏫 Tatap Muka"
+        # Periode di JSON
+        periode_json = item.get("periode", 1)
+
+        # Logika:
+        # Periode 1 (sebelum UTS) + Periode JSON 1 = Offline
+        # Periode 2 (setelah UTS) + Periode JSON 1 = Online
+        # Periode 1 (sebelum UTS) + Periode JSON 2 = Online
+        # Periode 2 (setelah UTS) + Periode JSON 2 = Offline
+        if periode_json == 1:
+            return "🏫 Tatap Muka" if periode_saat_ini == 1 else "💻 Online"
+        else:  # periode_json == 2
+            return "💻 Online" if periode_saat_ini == 1 else "🏫 Tatap Muka"
 
     # Fallback untuk kelas lain: pola lama ganjil/genap.
+    periode = item.get("periode", 1)
     if minggu_ke % 2 == 0:
         if periode == 1:
             return "💻 Online"
@@ -160,11 +165,24 @@ def enrich_data(data):
 
     for item in data["jadwal"]:
 
-        item["mode"] = get_mode(
-            item,
-            minggu_ke,
-            reguler
-        )
+        # Untuk REG_AB, konversi mode dari JSON (offline/online) ke format dengan emoji
+        # Untuk REG_CK_CS, mode ditentukan oleh fungsi get_mode berdasarkan periode
+        if reguler in REG_AB:
+            json_mode = item.get("mode", "offline")
+            if json_mode == "offline":
+                item["mode"] = "🏫 Tatap Muka"
+            elif json_mode == "online":
+                item["mode"] = "💻 Online"
+            else:
+                item["mode"] = "🏫 Tatap Muka"
+        else:
+            # Untuk REG_CK_CS dan lainnya, gunakan fungsi get_mode
+            item["mode"] = get_mode(
+                item,
+                minggu_ke,
+                reguler,
+                data
+            )
 
     return data
 
@@ -181,16 +199,16 @@ def get_schedule_slots(data):
 
         key = (
             item["hari"],
-            item["mulai"],
-            item["selesai"]
+            item["jam_mulai"],
+            item["jam_selesai"]
         )
 
         if key not in slots:
             slots[key] = {
                 "items": [],
                 "hari": item["hari"],
-                "mulai": item["mulai"],
-                "selesai": item["selesai"]
+                "jam_mulai": item["jam_mulai"],
+                "jam_selesai": item["jam_selesai"]
             }
 
         slots[key]["items"].append(item)
@@ -214,7 +232,7 @@ def get_active_slot_keys(data):
             continue
 
         mulai = datetime.strptime(
-            slot["mulai"],
+            slot["jam_mulai"],
             "%H:%M"
         ).replace(
             year=sekarang.year,
@@ -224,7 +242,7 @@ def get_active_slot_keys(data):
         )
 
         selesai = datetime.strptime(
-            slot["selesai"],
+            slot["jam_selesai"],
             "%H:%M"
         ).replace(
             year=sekarang.year,
@@ -234,7 +252,7 @@ def get_active_slot_keys(data):
         )
 
         if (mulai - grace_period) <= sekarang <= selesai:
-            active_keys.add((slot["hari"], slot["mulai"], slot["selesai"]))
+            active_keys.add((slot["hari"], slot["jam_mulai"], slot["jam_selesai"]))
 
     return active_keys
 
@@ -245,32 +263,69 @@ def get_next_class(data):
     slots = get_schedule_slots(data)
     active_slot_keys = get_active_slot_keys(data)
 
-    kandidat = {
-        "💻 Online": None,
-        "🏫 Tatap Muka": None,
-    }
+    # Cari hari berikutnya yang memiliki jadwal
+    hari_berikutnya = None
+    min_selisih_hari = 8  # Lebih dari 7 hari
 
     for slot in slots:
 
-        slot_key = (slot["hari"], slot["mulai"], slot["selesai"])
+        slot_key = (slot["hari"], slot["jam_mulai"], slot["jam_selesai"])
 
         if slot_key in active_slot_keys:
             continue
 
         hari = slot["hari"]
-        jam, menit = map(int, slot["mulai"].split(":"))
-
         selisih_hari = (HARI_MAP[hari] - sekarang.weekday()) % 7
+
+        if selisih_hari == 0:
+            # Hari ini, cek apakah jamnya sudah lewat
+            jam, menit = map(int, slot["jam_mulai"].split(":"))
+            target = sekarang.replace(
+                hour=jam,
+                minute=menit,
+                second=0,
+                microsecond=0
+            )
+            if target <= sekarang:
+                # Sudah lewat, skip
+                continue
+            else:
+                # Masih hari ini
+                hari_berikutnya = hari
+                min_selisih_hari = 0
+                break
+        elif selisih_hari < min_selisih_hari:
+            hari_berikutnya = hari
+            min_selisih_hari = selisih_hari
+
+    # Jika tidak ada hari berikutnya (semua jadwal sudah lewat hari ini), cari hari Senin minggu depan
+    if hari_berikutnya is None:
+        hari_berikutnya = "Senin"
+        min_selisih_hari = (HARI_MAP["Senin"] - sekarang.weekday()) % 7
+        if min_selisih_hari == 0:
+            min_selisih_hari = 7
+
+    # Ambil semua kelas pada hari berikutnya
+    hasil = []
+
+    for slot in slots:
+
+        if slot["hari"] != hari_berikutnya:
+            continue
+
+        slot_key = (slot["hari"], slot["jam_mulai"], slot["jam_selesai"])
+
+        if slot_key in active_slot_keys:
+            continue
+
+        jam, menit = map(int, slot["jam_mulai"].split(":"))
 
         target = sekarang.replace(
             hour=jam,
             minute=menit,
             second=0,
             microsecond=0
-        ) + timedelta(days=selisih_hari)
-
-        if target <= sekarang:
-            target += timedelta(days=7)
+        ) + timedelta(days=min_selisih_hari)
 
         items = slot["items"]
 
@@ -278,25 +333,12 @@ def get_next_class(data):
             item["countdown"] = int(
                 (target - sekarang).total_seconds()
             )
-
-            mode = item.get("mode")
-
-            if mode not in kandidat:
-                continue
-
-            if kandidat[mode] is None or target < kandidat[mode][0]:
-                kandidat[mode] = (target, item)
-
-    hasil = []
-
-    for mode in ("💻 Online", "🏫 Tatap Muka"):
-
-        if kandidat[mode] is not None:
-            hasil.append(kandidat[mode][1])
+            hasil.append(item)
 
     hasil.sort(key=lambda item: item["countdown"])
 
-    return hasil
+    # Batasi maksimal 6 mata kuliah
+    return hasil[:8]
 # ==========================
 # CURRENT CLASS
 # ==========================
@@ -317,7 +359,7 @@ def get_current_class(data):
             continue
 
         mulai = datetime.strptime(
-            slot["mulai"],
+            slot["jam_mulai"],
             "%H:%M"
         ).replace(
             year=sekarang.year,
@@ -327,7 +369,7 @@ def get_current_class(data):
         )
 
         selesai = datetime.strptime(
-            slot["selesai"],
+            slot["jam_selesai"],
             "%H:%M"
         ).replace(
             year=sekarang.year,
@@ -369,23 +411,26 @@ def get_week_info(data):
     reguler = str(data.get("reguler", "")).strip().upper()
 
     if reguler in REG_AB:
-        tipe_minggu = "Ganjil" if minggu_ke % 2 == 1 else "Genap"
+        # Reg A/B: mode ditentukan oleh SKS, bukan minggu ganjil/genap
         return {
             "minggu_ke": minggu_ke,
-            "mode_akademik": "Siklus Mingguan",
-            "keterangan": f"Reg {reguler} - Minggu {tipe_minggu}"
+            "mode_akademik": "Sistem SKS",
+            "keterangan": f"Reg {reguler} - Mode berdasarkan SKS"
         }
 
     if reguler in REG_CK_CS:
-        sebelum_uts = minggu_ke <= 8
-        periode_tatap_muka = 1 if sebelum_uts else 2
-        fase = "Sebelum UTS" if sebelum_uts else "Setelah UTS"
+        # Tentukan periode saat ini berdasarkan tanggal UTS dan UAS
+        uts_date = datetime.strptime(data.get("uts_date", "2026-05-15"), "%Y-%m-%d").replace(tzinfo=WIB)
+        uas_date = datetime.strptime(data.get("uas_date", "2026-07-04"), "%Y-%m-%d").replace(tzinfo=WIB)
+
+        periode_saat_ini = 1 if sekarang < uts_date else 2
+        fase = "Sebelum UTS" if periode_saat_ini == 1 else "Setelah UTS"
         return {
             "minggu_ke": minggu_ke,
             "mode_akademik": "Sistem Periode",
             "keterangan": (
                 f"Reg {reguler} - {fase}, "
-                f"Periode Tatap Muka: {periode_tatap_muka}"
+                f"Periode Saat Ini: {periode_saat_ini}"
             )
         }
 
@@ -414,17 +459,21 @@ def get_progress(data):
         "%Y-%m-%d"
     ).replace(tzinfo=WIB)
 
-    total_minggu = 16
+    semester_selesai = datetime.strptime(
+        data["semester_selesai"],
+        "%Y-%m-%d"
+    ).replace(tzinfo=WIB)
 
-    minggu_ke = (
-        (sekarang - semester_mulai).days
-        // 7
-    ) + 1
+    total_hari = (semester_selesai - semester_mulai).days
+    hari_berlalu = (sekarang - semester_mulai).days
+
+    if hari_berlalu < 0:
+        return 0
 
     persen = round(
         (
-            minggu_ke
-            / total_minggu
+            hari_berlalu
+            / total_hari
         ) * 100
     )
 
