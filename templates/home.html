@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>MTOU — Sistem Informasi Waktu Kuliah</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- ============================================
+         HEADER
+    ============================================ -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="brand-wrapper">
+                <a href="/" class="brand-logo">
+                    <img src="{{ url_for('static', filename='images/universitas-pamulang-logo-png_seeklogo-259632.png') }}"
+                        alt="UNPAM Logo" class="logo-img">
+                </a>
+                <a href="/" class="brand-mark" style="text-decoration: none;">
+                    M<span class="brand-accent">TOU</span>
+                </a>
+            </div>
+            <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Dark Mode">
+                <svg class="icon-inline" viewBox="0 0 24 24" width="20" height="20">
+                    <path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 0-9-9zm0 16a7 7 0 1 1 7-7 7 7 0 0 1-7 7z" />
+                    <path d="M12 7v10M7 12h10" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================
+         HERO SECTION
+    ============================================ -->
+    <section class="hero-modern">
+        <div class="container hero-modern-inner">
+            <div class="hero-content">
+                <span class="eyebrow">Sistem Informasi Ruang Reguler</span>
+                <h1 class="hero-title">
+                    Kelola Jadwal Kuliah<br>
+                    <span class="gold-highlight">Mahasiswa</span>
+                </h1>
+                <div class="hero-rule"></div>
+                <p class="hero-desc">
+                    Pantau jadwal tatap muka dan online secara real-time.
+                    Tetap teratur, tidak pernah terlambat.
+                </p>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ jurusan|length }}</span>
+                        <span class="stat-label">Jurusan</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">{{ semester|length }}</span>
+                        <span class="stat-label">Semester</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">{{ classes|length }}</span>
+                        <span class="stat-label">Kelas</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-form-panel">
+                <div class="form-card">
+                    <div class="form-header">
+                        <span class="form-icon">
+                            <svg class="icon-inline" viewBox="0 0 24 24" width="28" height="28">
+                                <path
+                                    d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z" />
+                            </svg>
+                        </span>
+                        <h3 class="form-title">Cari Jadwal</h3>
+                        <p class="form-subtitle">Pilih jurusan, semester, dan kelas</p>
+                    </div>
+
+                    <form action="/open" method="POST" class="select-form">
+                        <div class="field-group">
+                            <label for="jurusan">Jurusan</label>
+                            <select name="jurusan" id="jurusan" required>
+                                {% for j in jurusan %}
+                                <option value="{{ j }}">{{ j }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="semester">Semester</label>
+                            <select name="semester" id="semester" required>
+                                {% for s in semester %}
+                                <option value="{{ s }}">Semester {{ s }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="kelas">Kelas</label>
+                            <select name="kelas" id="kelas" required>
+                                <option value="">Pilih Jurusan & Semester</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="action-btn">
+                            <svg class="icon-inline" viewBox="0 0 24 24" width="18" height="18">
+                                <path
+                                    d="M9.5 3a6.5 6.5 0 1 0 4.23 11.48l4.4 4.39 1.41-1.41-4.39-4.4A6.5 6.5 0 0 0 9.5 3zm0 2a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9z" />
+                            </svg>
+                            Lihat Jadwal
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CLOCK MINI
+    ============================================ -->
+    <section class="clock-mini">
+        <div class="container clock-mini-inner">
+            <div class="clock-display">
+                <span class="clock-label">
+                    <svg class="icon-inline" viewBox="0 0 24 24" width="16" height="16">
+                        <path
+                            d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                    </svg>
+                    Waktu Sekarang
+                </span>
+                <span id="live-clock-mini">00:00:00</span>
+                <span class="clock-date" id="today-date-mini">Memuat Hari...</span>
+            </div>
+            <div class="clock-greeting" id="greeting-text">Selamat Belajar</div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+    ============================================ -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <img src="{{ url_for('static', filename='images/unpam-logo.png') }}" alt="UNPAM Logo"
+                    class="footer-logo">
+                <p>&copy; 2026 MTOU | Made with ❤️ by Unpam Nexus</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function applySavedTheme() {
+            var savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.body.classList.add("dark");
+            }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle("dark");
+            localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+        }
+
+        applySavedTheme();
+
+        function updateClockMini() {
+            var now = new Date();
+            var hours = now.getHours();
+
+            var clockEl = document.getElementById('live-clock-mini');
+            if (clockEl) {
+                clockEl.innerText = now.toLocaleTimeString('id-ID', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+            }
+
+            var dateEl = document.getElementById('today-date-mini');
+            if (dateEl) {
+                var options = {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                };
+                dateEl.innerText = now.toLocaleDateString('id-ID', options);
+            }
+
+            var greetingEl = document.getElementById('greeting-text');
+            if (greetingEl) {
+                var greeting = '';
+                if (hours >= 4 && hours < 10) greeting = 'Selamat Pagi';
+                else if (hours >= 10 && hours < 15) greeting = 'Selamat Siang';
+                else if (hours >= 15 && hours < 18) greeting = 'Selamat Sore';
+                else greeting = 'Selamat Malam';
+                greetingEl.textContent = greeting;
+            }
+        }
+
+        setInterval(updateClockMini, 1000);
+        updateClockMini();
+
+        async function loadClasses() {
+            var jurusan = document.getElementById("jurusan").value;
+            var semester = document.getElementById("semester").value;
+
+            if (!jurusan || !semester) {
+                var kelasSelect = document.getElementById("kelas");
+                kelasSelect.innerHTML = '<option value="">Pilih Jurusan & Semester</option>';
+                return;
+            }
+
+            try {
+                var response = await fetch('/get_classes?jurusan=' + jurusan + '&semester=' + semester);
+                var data = await response.json();
+
+                var kelasSelect = document.getElementById("kelas");
+                kelasSelect.innerHTML = "";
+
+                if (data.classes.length === 0) {
+                    kelasSelect.innerHTML = '<option value="">Tidak Ada Kelas</option>';
+                    return;
+                }
+
+                data.classes.forEach(function (kelas) {
+                    kelasSelect.innerHTML += '<option value="' + kelas + '">' + kelas + '</option>';
+                });
+            } catch (error) {
+                console.error('Error loading classes:', error);
+            }
+        }
+
+        document.getElementById("jurusan").addEventListener("change", loadClasses);
+        document.getElementById("semester").addEventListener("change", loadClasses);
+
+        window.onload = loadClasses;
+    </script>
+</body>
+
+</html>

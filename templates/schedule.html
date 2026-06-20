@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>{{ jurusan }} - Semester {{ semester }} - {{ kelas }}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    {# --- DATA PREPARATION --- #}
+    {% set current_keys = [] %}
+    {% for cls in current_class %}
+    {% set _ = current_keys.append(cls.hari ~ '|' ~ cls.jam_mulai ~ '|' ~ cls.mata_kuliah) %}
+    {% endfor %}
+
+    {% set next_keys = [] %}
+    {% for cls in next_class %}
+    {% set _ = next_keys.append(cls.hari ~ '|' ~ cls.jam_mulai ~ '|' ~ cls.mata_kuliah) %}
+    {% endfor %}
+
+    {# --- PILIH 1 ONLINE & 1 OFFLINE UNTUK KELAS BERIKUTNYA --- #}
+    {% set next_online = [] %}
+    {% set next_offline = [] %}
+    {% for cls in next_class %}
+    {% if cls.mode == 'Online' and next_online|length < 1 %} {% set _=next_online.append(cls) %} {% elif cls.mode
+        !='Online' and next_offline|length < 1 %} {% set _=next_offline.append(cls) %} {% endif %} {% endfor %} {% set
+        next_highlight=next_online + next_offline %} {% if next_highlight|length < 2 %} {% for cls in next_class %} {%
+        if cls not in next_highlight and next_highlight|length < 2 %} {% set _=next_highlight.append(cls) %} {% endif %}
+        {% endfor %} {% endif %} {% set hari_urutan=['Senin', 'Selasa' , 'Rabu' , 'Kamis' , 'Jumat' , 'Sabtu' , 'Minggu'
+        ] %} <header class="site-header">
+        <div class="container header-inner">
+            <div class="brand-wrapper">
+                <a href="/" class="brand-logo">
+                    <img src="{{ url_for('static', filename='images/universitas-pamulang-logo-png_seeklogo-259632.png') }}"
+                        alt="UNPAM Logo" class="logo-img">
+                </a>
+                <a href="/" class="brand-mark" style="text-decoration: none;">M<span class="brand-accent">TOU</span></a>
+            </div>
+            <div class="header-actions">
+                <a href="/" class="back-btn">
+                    <svg class="icon-inline" viewBox="0 0 24 24">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+                    </svg>
+                    Kembali
+                </a>
+                <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Dark Mode">
+                    <svg class="icon-inline" viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 0-9-9zm0 16a7 7 0 1 1 7-7 7 7 0 0 1-7 7z" />
+                        <path d="M12 7v10M7 12h10" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        </header>
+
+        <section class="clock-section">
+            <div class="container clock-block">
+                <div>
+                    <span class="clock-kicker">{{ jurusan }} • Semester {{ semester }} • {{ kelas }}</span>
+                    <div id="live-clock">00:00:00</div>
+                    <div id="today-date">Memuat Hari...</div>
+                </div>
+            </div>
+        </section>
+
+        <main class="container section-main">
+
+            <!-- INFORMASI AKADEMIK -->
+            <div class="panel" style="margin-bottom: 16px;">
+                <h2 class="panel-title">Informasi Akademik</h2>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Minggu Ke</span>
+                        <span class="info-value">{{ minggu_ke }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sistem</span>
+                        <span class="info-value">{{ mode_akademik }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Keterangan</span>
+                        <span class="info-value">{{ keterangan_akademik }}</span>
+                    </div>
+                </div>
+
+                <div class="progress-wrap">
+                    <div class="progress">
+                        <div class="progress-bar" data-progress="{{ progress }}"></div>
+                    </div>
+                    <span class="progress-label">{{ progress }}% Semester Selesai</span>
+                </div>
+            </div>
+
+            <!-- KELAS BERLANGSUNG & BERIKUTNYA -->
+            <div class="schedule-highlight">
+                <div class="panel highlight-panel current-highlight">
+                    <h2 class="panel-title">
+                        <span class="title-icon">
+                            <svg class="icon-inline" viewBox="0 0 24 24" width="18" height="18">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-13v4h-5v2h5v4l5-5z" />
+                            </svg>
+                        </span>
+                        Kelas Berlangsung
+                    </h2>
+                    {% if current_class and current_class|length > 0 %}
+                    <div class="highlight-grid">
+                        {% for cls in current_class[:2] %}
+                        <div class="highlight-card current-card">
+                            <div class="highlight-header">
+                                <span class="status-badge live">Live</span>
+                                <span class="class-mode">{{ cls.mode }}</span>
+                            </div>
+                            <h3 class="highlight-title">{{ cls.mata_kuliah }}</h3>
+                            <div class="highlight-meta">
+                                <span>{{ cls.jam_mulai }} - {{ cls.jam_selesai }}</span>
+                                <span>{{ cls.dosen }}</span>
+                                <span>{{ cls.ruang if cls.ruang else 'Mentari' }}</span>
+                            </div>
+                            <div class="countdown-bar" data-seconds="{{ cls.countdown }}">
+                                <div class="countdown-progress"></div>
+                                <span class="countdown-label">Sisa Waktu</span>
+                                <span class="countdown-time"></span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if current_class|length > 2 %}
+                    <p class="more-indicator">+ {{ current_class|length - 2 }} kelas lainnya</p>
+                    {% endif %}
+                    {% else %}
+                    <p class="empty-state">Tidak ada kelas berlangsung</p>
+                    {% endif %}
+                </div>
+
+                <div class="panel highlight-panel next-highlight">
+                    <h2 class="panel-title">
+                        <span class="title-icon">
+                            <svg class="icon-inline" viewBox="0 0 24 24" width="18" height="18">
+                                <path
+                                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                            </svg>
+                        </span>
+                        Kelas Berikutnya
+                    </h2>
+                    {% if next_highlight and next_highlight|length > 0 %}
+                    <div class="highlight-grid">
+                        {% for cls in next_highlight[:2] %}
+                        <div class="highlight-card next-card">
+                            <div class="highlight-header">
+                                <span class="status-badge upcoming">Upcoming</span>
+                                <span class="class-mode">{{ cls.mode }}</span>
+                            </div>
+                            <h3 class="highlight-title">{{ cls.mata_kuliah }}</h3>
+                            <div class="highlight-meta">
+                                <span>{{ cls.hari }}</span>
+                                <span>{{ cls.jam_mulai }} - {{ cls.jam_selesai }}</span>
+                                <span>{{ cls.dosen }}</span>
+                                <span>{{ cls.ruang if cls.ruang else 'Mentari' }}</span>
+                            </div>
+                            <div class="countdown-bar" data-seconds="{{ cls.countdown }}">
+                                <div class="countdown-progress"></div>
+                                <span class="countdown-label">Mulai Dalam</span>
+                                <span class="countdown-time"></span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if next_highlight|length > 2 %}
+                    <p class="more-indicator">+ {{ next_highlight|length - 2 }} kelas lainnya</p>
+                    {% endif %}
+                    {% else %}
+                    <p class="empty-state">Tidak ada jadwal berikutnya</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- JADWAL LENGKAP -->
+            <div class="panel full-schedule-panel">
+                <h2 class="panel-title">
+                    Jadwal Lengkap
+                    <span class="panel-badge">{{ jadwal|length }} Mata Kuliah</span>
+                </h2>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="applyFilter('all', this)">Semua</button>
+                    <button class="filter-tab" onclick="applyFilter('tatap-muka', this)">Tatap Muka</button>
+                    <button class="filter-tab" onclick="applyFilter('online', this)">Online</button>
+                </div>
+
+                <div id="schedule-container">
+                    {% for hari in hari_urutan %}
+                    {% set items_hari = jadwal | selectattr('hari', 'equalto', hari) | list %}
+                    {% if items_hari|length > 0 %}
+                    <div class="day-group" data-day="{{ hari|lower }}">
+                        <div class="day-header">
+                            <span class="day-name">{{ hari }}</span>
+                            <span class="day-count">{{ items_hari|length }} Mata Kuliah</span>
+                        </div>
+                        <div class="cards-grid">
+                            {% for item in items_hari %}
+                            {% set item_key = item.hari ~ '|' ~ item.jam_mulai ~ '|' ~ item.mata_kuliah %}
+                            {% set is_online = item.mode == 'Online' %}
+
+                            {% if item_key in current_keys %}
+                            {% set status_class = 'status-berlangsung' %}
+                            {% set badge_class = 'badge-berlangsung' %}
+                            {% set badge_text = 'Berlangsung' %}
+                            {% elif item_key in next_keys %}
+                            {% set status_class = 'status-berikutnya' %}
+                            {% set badge_class = 'badge-berikutnya' %}
+                            {% set badge_text = 'Berikutnya' %}
+                            {% else %}
+                            {% set status_class = 'status-selesai' %}
+                            {% set badge_class = 'badge-selesai' %}
+                            {% set badge_text = 'Selesai' %}
+                            {% endif %}
+
+                            <div class="class-card {{ status_class }}"
+                                data-type="{{ 'online' if is_online else 'tatap-muka' }}" data-key="{{ item_key }}">
+
+                                <div class="card-header">
+                                    <h3>{{ item.mata_kuliah }}</h3>
+                                    <span class="sks-badge">{{ item.sks if item.sks else '-' }} SKS</span>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="meta-line">
+                                        <span class="meta-label">Waktu</span>
+                                        <span class="meta-value">{{ item.jam_mulai }} - {{ item.jam_selesai }}</span>
+                                    </div>
+                                    <div class="meta-line">
+                                        <span class="meta-label">Dosen</span>
+                                        <span class="meta-value">{{ item.dosen }}</span>
+                                    </div>
+                                    {% if is_online %}
+                                    <div class="meta-line">
+                                        <span class="meta-label">Metode</span>
+                                        <span class="meta-value">E-Learning</span>
+                                    </div>
+                                    {% else %}
+                                    <div class="meta-line">
+                                        <span class="meta-label">Ruang</span>
+                                        <span class="meta-value">{{ item.ruang if item.ruang else 'Mentari' }}</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="badge-group">
+                                        <span class="ux-badge {{ badge_class }}">{{ badge_text }}</span>
+                                        <span
+                                            class="ux-badge {{ 'badge-online' if is_online else 'badge-tatap-muka' }}">
+                                            {{ 'Online' if is_online else 'Tatap Muka' }}
+                                        </span>
+                                    </div>
+                                    {% if item_key in current_keys or item_key in next_keys %}
+                                    <div class="countdown-line" data-seconds="{{ item.countdown }}">
+                                        <span class="countdown-label">
+                                            <svg class="icon-inline" viewBox="0 0 24 24" width="14" height="14">
+                                                <path
+                                                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                                            </svg>
+                                        </span>
+                                        <span class="countdown-text"></span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <img src="{{ url_for('static', filename='images/unpam-logo.png') }}" alt="UNPAM Logo"
+                        class="footer-logo">
+                    <p>&copy; 2026 MTOU | Made with ❤️ by Unpam Nexus</p>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            function applySavedTheme() {
+                var savedTheme = localStorage.getItem("theme");
+                if (savedTheme === "dark") {
+                    document.body.classList.add("dark");
+                }
+            }
+
+            function toggleTheme() {
+                document.body.classList.toggle("dark");
+                localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+            }
+
+            applySavedTheme();
+
+            function updateClock() {
+                var now = new Date();
+                document.getElementById('live-clock').innerText = now.toLocaleTimeString('id-ID');
+                var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('today-date').innerText = now.toLocaleDateString('id-ID', options);
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            var progressBar = document.querySelector(".progress-bar");
+            if (progressBar) {
+                progressBar.style.width = progressBar.dataset.progress + "%";
+            }
+
+            function renderCountdown(el) {
+                var seconds = parseInt(el.dataset.seconds);
+                if (isNaN(seconds) || seconds < 0) seconds = 0;
+
+                var totalSeconds = seconds;
+                var timeEl = el.querySelector('.countdown-time') || el.querySelector('.countdown-text');
+                var progressEl = el.querySelector('.countdown-progress');
+
+                function update() {
+                    var total = Math.max(seconds, 0);
+                    var hari = Math.floor(total / 86400);
+                    var jam = Math.floor((total % 86400) / 3600);
+                    var menit = Math.floor((total % 3600) / 60);
+                    var detik = total % 60;
+
+                    if (progressEl && totalSeconds > 0) {
+                        var progress = ((totalSeconds - total) / totalSeconds) * 100;
+                        progressEl.style.width = Math.min(progress, 100) + '%';
+                    }
+
+                    if (timeEl) {
+                        if (total <= 0) {
+                            timeEl.textContent = 'Selesai';
+                            if (progressEl) progressEl.style.width = '100%';
+                            return;
+                        }
+                        timeEl.textContent = hari > 0
+                            ? hari + ' hari ' + jam + ' jam ' + menit + ' menit'
+                            : jam + ' jam ' + menit + ' menit ' + detik + ' detik';
+                    }
+
+                    if (seconds > 0) seconds--;
+                }
+
+                update();
+                setInterval(update, 1000);
+            }
+
+            document.querySelectorAll(".countdown-bar, .countdown-line").forEach(renderCountdown);
+
+            function applyFilter(filterValue, element) {
+                document.querySelectorAll('.filter-tab').forEach(function (t) { t.classList.remove('active'); });
+                if (element) element.classList.add('active');
+
+                var dayGroups = document.querySelectorAll('.day-group');
+                dayGroups.forEach(function (group) {
+                    var hasVisibleCard = false;
+                    var groupCards = group.querySelectorAll('.class-card');
+                    groupCards.forEach(function (card) {
+                        var cardType = card.getAttribute('data-type');
+                        if (filterValue === 'all' || filterValue === cardType) {
+                            card.style.display = 'block';
+                            hasVisibleCard = true;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    group.style.display = hasVisibleCard ? 'block' : 'none';
+                });
+            }
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') window.location.href = '/';
+                if ((e.key === 'd' || e.key === 'D') && !e.ctrlKey && !e.metaKey) toggleTheme();
+            });
+        </script>
+</body>
+
+</html>
