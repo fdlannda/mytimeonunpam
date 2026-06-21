@@ -322,7 +322,7 @@ Menentukan minggu akademik saat ini dengan menghitung periode 7 hari dari tangga
 
 1. **Clone repository**
 ```bash
-git clone https://github.com/yourusername/mytimeonunpam.git
+git clone https://github.com/fdlannda/mytimeonunpam.git
 cd mytimeonunpam
 ```
 
