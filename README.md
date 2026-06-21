@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**Real-time Academic Schedule Monitoring System**
+**Sistem Monitoring Jadwal Akademik Real-Time**
 
 [![Flask](https://img.shields.io/badge/Flask-2.0+-red)](https://flask.palletsprojects.com/)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue)](https://www.python.org/)
@@ -16,65 +16,65 @@ Sistem informasi pengingat jadwal kuliah real-time untuk mahasiswa Universitas P
 
 ---
 
-## 📋 Table of Contents
+## 📋 Daftar Isi
 
-- [🌟 Features](#-features)
-- [🏗️ Architecture](#️-architecture)
-- [🧠 Core Algorithms](#-core-algorithms)
-- [🎨 Design System](#-design-system)
-- [📊 Data Structure](#-data-structure)
-- [🔧 Installation](#-installation)
+- [🌟 Fitur](#-fitur)
+- [🏗️ Arsitektur](#️-arsitektur)
+- [🧠 Algoritma Inti](#-algoritma-inti)
+- [🎨 Sistem Desain](#-sistem-desain)
+- [📊 Struktur Data](#-struktur-data)
+- [🔧 Instalasi](#-instalasi)
 - [🚀 Deployment](#-deployment)
-- [🤝 Contributing](#-contributing)
-- [📝 License](#-license)
+- [🤝 Kontribusi](#-kontribusi)
+- [📝 Lisensi](#-lisensi)
 
 ---
 
-## 🌟 Features
+## 🌟 Fitur
 
-### Real-Time Schedule Monitoring
-- **Live Class Detection**: Automatically identifies currently active classes with 5-minute grace period
-- **Next Class Prediction**: Intelligent algorithm to predict upcoming classes across the week
-- **Countdown Timer**: Real-time countdown for both current and upcoming classes
+### Monitoring Jadwal Real-Time
+- **Deteksi Kelas Aktif**: Mengidentifikasi secara otomatis kelas yang sedang berlangsung dengan masa tenggang 5 menit
+- **Prediksi Kelas Berikutnya**: Algoritma cerdas untuk memprediksi kelas yang akan datang sepanjang minggu
+- **Timer Hitung Mundur**: Hitung mundur real-time untuk kelas saat ini dan yang akan datang
 
-### Smart Academic Mode System
-- **SKS-Based Mode**: For Reg A/B classes, mode determined by credit hours (3 SKS = hybrid, 2 SKS = offline only)
-- **Period-Based Mode**: For Reg CK/CS classes, automatic mode switching based on UTS/UAS dates
-- **Traditional Period**: Fallback to odd/even week system for other class types
+### Sistem Mode Akademik Cerdas
+- **Mode Berbasis SKS**: Untuk kelas Reg A/B, mode ditentukan oleh SKS (3 SKS = hybrid, 2 SKS = offline saja)
+- **Mode Berbasis Periode**: Untuk kelas Reg CK/CS, pergantian mode otomatis berdasarkan tanggal UTS/UAS
+- **Periode Tradisional**: Fallback ke sistem minggu ganjil/genap untuk jenis kelas lain
 
-### Academic Progress Tracking
-- **Semester Progress**: Visual progress bar showing semester completion percentage
-- **Week Information**: Current academic week with academic mode details
-- **Academic Phases**: Clear indication of pre-UTS and post-UTS periods
+### Pelacakan Progres Akademik
+- **Progres Semester**: Progress bar visual menunjukkan persentase penyelesaian semester
+- **Informasi Minggu**: Minggu akademik saat ini dengan detail mode akademik
+- **Fase Akademik**: Indikasi jelas pra-UTS dan pasca-UTS
 
-### Modern UI/UX
-- **Dark Mode**: Full dark mode support with automatic theme persistence
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
-- **Smooth Animations**: Entrance animations and interactive transitions
-- **UNPAM Branding**: Navy (#003366) & Gold (#F5A623) color scheme
+### UI/UX Modern
+- **Mode Gelap**: Dukungan mode gelap penuh dengan persistensi tema otomatis
+- **Desain Responsif**: Dioptimalkan untuk desktop, tablet, dan perangkat mobile
+- **Animasi Halus**: Animasi masuk dan transisi interaktif
+- **Branding UNPAM**: Skema warna Navy (#003366) & Gold (#F5A623)
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Arsitektur
 
-### Technology Stack
+### Teknologi yang Digunakan
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                     Frontend Layer                       │
+│                    Lapisan Frontend                     │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
 │  │  home.html   │  │ schedule.html│  │  style.css   │  │
-│  │  (Selection) │  │  (Dashboard) │  │  (Styling)   │  │
+│  │  (Seleksi)   │  │  (Dashboard) │  │  (Styling)   │  │
 │  └──────────────┘  └──────────────┘  └──────────────┘  │
 └─────────────────────────────────────────────────────────┘
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────┐
-│                    Backend Layer                         │
+│                    Lapisan Backend                      │
 │  ┌──────────────────────────────────────────────────┐  │
-│  │              Flask Application (app.py)           │  │
+│  │          Aplikasi Flask (app.py)                 │  │
 │  │  ┌──────────┐  ┌──────────┐  ┌──────────┐      │  │
-│  │  │ Routing  │  │ Logic    │  │ Data     │      │  │
+│  │  │ Routing  │  │ Logika   │  │ Data     │      │  │
 │  │  │ Engine   │  │ Engine   │  │ Loader   │      │  │
 │  │  └──────────┘  └──────────┘  └──────────┘      │  │
 │  └──────────────────────────────────────────────────┘  │
@@ -82,61 +82,61 @@ Sistem informasi pengingat jadwal kuliah real-time untuk mahasiswa Universitas P
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────┐
-│                    Data Layer                             │
+│                    Lapisan Data                          │
 │  ┌──────────────────────────────────────────────────┐  │
-│  │           JSON Schedule Files (data/)             │  │
+│  │        File Jadwal JSON (data/)                   │  │
 │  │  jurusan_semester_kelas.json                       │  │
 │  └──────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────┘
 ```
 
-### Project Structure
+### Struktur Project
 
 ```
 mytimeonunpam/
-├── app.py                  # Main Flask application with core logic
-├── requirements.txt        # Python dependencies
-├── Procfile               # Deployment configuration (Gunicorn)
-├── data/                  # JSON schedule files per class
+├── app.py                  # Aplikasi Flask utama dengan logika inti
+├── requirements.txt        # Dependensi Python
+├── Procfile               # Konfigurasi deployment (Gunicorn)
+├── data/                  # File jadwal JSON per kelas
 │   ├── Teknik_Informatika_1_A.json
 │   ├── Teknik_Informatika_1_B.json
 │   └── ...
 ├── static/
-│   ├── style.css          # Main stylesheet with design system
-│   └── images/            # Static assets (logos, icons)
+│   ├── style.css          # Stylesheet utama dengan sistem desain
+│   └── images/            # Aset statis (logo, ikon)
 │       ├── universitas-pamulang-logo-png_seeklogo-259632.png
 │       └── unpam-logo.png
 └── templates/
-    ├── home.html          # Class selection page
-    └── schedule.html      # Schedule dashboard page
+    ├── home.html          # Halaman seleksi kelas
+    └── schedule.html      # Halaman dashboard jadwal
 ```
 
 ---
 
-## 🧠 Core Algorithms
+## 🧠 Algoritma Inti
 
-### 1. Time Zone Management
+### 1. Manajemen Zona Waktu
 
 ```python
 WIB = timezone(timedelta(hours=7))
 ```
 
-All time calculations use Indonesia Western Time (WIB, UTC+7) to ensure accuracy for Indonesian academic schedules.
+Semua perhitungan waktu menggunakan Waktu Indonesia Barat (WIB, UTC+7) untuk memastikan akurasi jadwal akademik Indonesia.
 
-### 2. Academic Mode Determination
+### 2. Penentuan Mode Akademik
 
-The system implements three different academic mode strategies:
+Sistem mengimplementasikan tiga strategi mode akademik yang berbeda:
 
-#### A. SKS-Based Mode (Reg A/B)
+#### A. Mode Berbasis SKS (Reg A/B)
 ```python
 if reguler in REG_AB:
     return item.get("mode", "Tatap Muka")
 ```
-- **3 SKS**: Hybrid mode (offline + online sessions)
-- **2 SKS**: Offline only
-- Mode is pre-defined in JSON data
+- **3 SKS**: Mode hybrid (sesi offline + online)
+- **2 SKS**: Offline saja
+- Mode sudah ditentukan di data JSON
 
-#### B. Period-Based Mode (Reg CK/CS)
+#### B. Mode Berbasis Periode (Reg CK/CS)
 ```python
 if reguler in REG_CK_CS:
     periode_saat_ini = 1 if sekarang < uts_date else 2
@@ -145,21 +145,21 @@ if reguler in REG_CK_CS:
     else:
         return "Online" if periode_saat_ini == 1 else "Tatap Muka"
 ```
-- Automatically switches modes after UTS
-- Periode 1 (pre-UTS): Follows JSON period definition
-- Periode 2 (post-UTS): Inverts the mode
+- Pergantian mode otomatis setelah UTS
+- Periode 1 (pra-UTS): Mengikuti definisi periode JSON
+- Periode 2 (pasca-UTS): Membalikkan mode
 
-#### C. Traditional Odd/Even Week
+#### C. Periode Tradisional Ganjil/Genap
 ```python
 if minggu_ke % 2 == 0:
     if periode == 1:
         return "Online"
     return "Tatap Muka"
 ```
-- Even weeks: Period 1 = Online, Period 2 = Offline
-- Odd weeks: Period 1 = Offline, Period 2 = Online
+- Minggu genap: Periode 1 = Online, Periode 2 = Offline
+- Minggu ganjil: Periode 1 = Offline, Periode 2 = Online
 
-### 3. Active Class Detection
+### 3. Deteksi Kelas Aktif
 
 ```python
 def get_active_slot_keys(data):
@@ -168,35 +168,35 @@ def get_active_slot_keys(data):
         active_keys.add((slot["hari"], slot["jam_mulai"], slot["jam_selesai"]))
 ```
 
-**Grace Period Logic**: Classes are considered active 5 minutes before the scheduled start time to account for early arrivals and slight delays.
+**Logika Masa Tenggang**: Kelas dianggap aktif 5 menit sebelum waktu mulai yang dijadwalkan untuk mengakomodasi kedatangan awal dan keterlambatan ringan.
 
-### 4. Next Class Prediction Algorithm
+### 4. Algoritma Prediksi Kelas Berikutnya
 
 ```python
 def get_next_class(data):
-    # 1. Find next day with schedule
+    # 1. Cari hari berikutnya dengan jadwal
     for slot in slots:
         selisih_hari = (HARI_MAP[hari] - sekarang.weekday()) % 7
         if selisih_hari < min_selisih_hari:
             hari_berikutnya = hari
             min_selisih_hari = selisih_hari
     
-    # 2. Calculate countdown for each class on that day
+    # 2. Hitung countdown untuk setiap kelas pada hari itu
     for item in items:
         item["countdown"] = int((target - sekarang).total_seconds())
     
-    # 3. Sort by countdown and return top 8
+    # 3. Urutkan berdasarkan countdown dan kembalikan 8 teratas
     hasil.sort(key=lambda item: item["countdown"])
     return hasil[:8]
 ```
 
-**Algorithm Steps**:
-1. Identify the next day with scheduled classes
-2. Calculate time difference for each class on that day
-3. Sort by proximity and return the 8 nearest upcoming classes
-4. Handle edge case: if all today's classes are done, default to next Monday
+**Langkah Algoritma**:
+1. Identifikasi hari berikutnya dengan jadwal kelas
+2. Hitung selisih waktu untuk setiap kelas pada hari itu
+3. Urutkan berdasarkan kedekatan dan kembalikan 8 kelas terdekat yang akan datang
+4. Tangani kasus edge: jika semua kelas hari ini sudah selesai, default ke Senin depan
 
-### 5. Semester Progress Calculation
+### 5. Perhitungan Progres Semester
 
 ```python
 def get_progress(data):
@@ -206,9 +206,9 @@ def get_progress(data):
     return min(persen, 100)
 ```
 
-Calculates the percentage of semester completion based on elapsed days vs total semester duration.
+Menghitung persentase penyelesaian semester berdasarkan hari yang berlalu vs durasi total semester.
 
-### 6. Academic Week Calculation
+### 6. Perhitungan Minggu Akademik
 
 ```python
 def get_global_week(data):
@@ -216,59 +216,59 @@ def get_global_week(data):
     return max(minggu_ke, 1)
 ```
 
-Determines the current academic week by counting 7-day periods from semester start date.
+Menentukan minggu akademik saat ini dengan menghitung periode 7 hari dari tanggal mulai semester.
 
 ---
 
-## 🎨 Design System
+## 🎨 Sistem Desain
 
-### Color Palette
-
-```css
---navy: #003366          /* Primary brand color */
---gold: #F5A623          /* Accent color */
---gold-surface: #FEF3DC  /* Light gold background */
---text-soft: #5C6680     /* Secondary text (light mode) */
---bg: #FFFFFF            /* Background (light mode) */
---panel: #FFFFFF         /* Panel background (light mode) */
-```
-
-### Dark Mode Colors
+### Palet Warna
 
 ```css
---bg: #0A1424            /* Dark background */
---panel: #002244         /* Dark panel */
---text: #E2E8F0          /* Primary text */
---text-soft: #94A3B8     /* Secondary text */
---line: rgba(245, 166, 35, 0.12)  /* Subtle gold lines */
+--navy: #003366          /* Warna merek utama */
+--gold: #F5A623          /* Warna aksen */
+--gold-surface: #FEF3DC  /* Latar belakang emas terang */
+--text-soft: #5C6680     /* Teks sekunder (mode terang) */
+--bg: #FFFFFF            /* Latar belakang (mode terang) */
+--panel: #FFFFFF         /* Latar belakang panel (mode terang) */
 ```
 
-### Typography
+### Warna Mode Gelap
 
-- **Headings**: Source Serif 4 (serif)
-- **Body**: Inter (sans-serif)
-- **Responsive sizing**: Uses `clamp()` for fluid typography
+```css
+--bg: #0A1424            /* Latar belakang gelap */
+--panel: #002244         /* Panel gelap */
+--text: #E2E8F0          /* Teks utama */
+--text-soft: #94A3B8     /* Teks sekunder */
+--line: rgba(245, 166, 35, 0.12)  /* Garis emas halus */
+```
 
-### Design Principles
+### Tipografi
 
-1. **Gestalt Principle**: Grouping related elements for visual hierarchy
-2. **Hick's Law**: Minimizing choices to reduce decision paralysis
-3. **Jakob's Law**: Following familiar patterns for user comfort
-4. **Cognitive Load Theory**: Presenting information in digestible chunks
-5. **Fitts's Law**: Optimizing interactive elements for easy selection
+- **Judul**: Source Serif 4 (serif)
+- **Isi**: Inter (sans-serif)
+- **Ukuran responsif**: Menggunakan `clamp()` untuk tipografi fluid
 
-### Animations
+### Prinsip Desain
 
-- **Eyebrow Entrance**: Fade-in with slide-up and scale effect (0.8s)
-- **Progress Bar**: Smooth fill animation (0.6s ease)
-- **Theme Toggle**: Instant theme switching with icon transition
-- **Button Hover**: Subtle lift and shadow enhancement
+1. **Prinsip Gestalt**: Pengelompokan elemen terkait untuk hierarki visual
+2. **Hukum Hick**: Meminimalkan pilihan untuk mengurangi kelumpuhan keputusan
+3. **Hukum Jakob**: Mengikuti pola yang familiar untuk kenyamanan pengguna
+4. **Teori Beban Kognitif**: Menyajikan informasi dalam potongan yang dapat dicerna
+5. **Hukum Fitts**: Mengoptimalkan elemen interaktif untuk seleksi mudah
+
+### Animasi
+
+- **Masukan Eyebrow**: Fade-in dengan efek slide-up dan scale (0.8s)
+- **Progress Bar**: Animasi fill halus (0.6s ease)
+- **Toggle Tema**: Pergantian tema instan dengan transisi ikon
+- **Hover Tombol**: Angkat halus dan peningkatan bayangan
 
 ---
 
-## 📊 Data Structure
+## 📊 Struktur Data
 
-### JSON Schedule File Format
+### Format File Jadwal JSON
 
 ```json
 {
@@ -292,62 +292,62 @@ Determines the current academic week by counting 7-day periods from semester sta
 }
 ```
 
-### Field Descriptions
+### Deskripsi Field
 
-- **semester_mulai**: First day of semester
-- **semester_selesai**: Last day of semester
-- **uts_date**: Mid-term exam date
-- **uas_date**: Final exam date
-- **reguler**: Class type (A, B, CK, CS)
-- **jadwal**: Array of schedule entries
-  - **hari**: Day of week (Senin-Minggu)
-  - **jam_mulai**: Class start time (HH:MM)
-  - **jam_selesai**: Class end time (HH:MM)
-  - **mata_kuliah**: Course name
-  - **dosen**: Lecturer name
-  - **ruang**: Room number
-  - **mode**: Class mode (offline/online)
-  - **periode**: Period assignment (1 or 2)
+- **semester_mulai**: Hari pertama semester
+- **semester_selesai**: Hari terakhir semester
+- **uts_date**: Tanggal ujian tengah semester
+- **uas_date**: Tanggal ujian akhir semester
+- **reguler**: Jenis kelas (A, B, CK, CS)
+- **jadwal**: Array entri jadwal
+  - **hari**: Hari dalam minggu (Senin-Minggu)
+  - **jam_mulai**: Waktu mulai kelas (HH:MM)
+  - **jam_selesai**: Waktu selesai kelas (HH:MM)
+  - **mata_kuliah**: Nama mata kuliah
+  - **dosen**: Nama dosen
+  - **ruang**: Nomor ruangan
+  - **mode**: Mode kelas (offline/online)
+  - **periode**: Penugasan periode (1 atau 2)
 
 ---
 
-## 🔧 Installation
+## 🔧 Instalasi
 
-### Prerequisites
+### Prasyarat
 
-- Python 3.8 or higher
-- pip (Python package manager)
+- Python 3.8 atau lebih tinggi
+- pip (manajer paket Python)
 
-### Local Development
+### Pengembangan Lokal
 
-1. **Clone the repository**
+1. **Clone repository**
 ```bash
 git clone https://github.com/yourusername/mytimeonunpam.git
 cd mytimeonunpam
 ```
 
-2. **Install dependencies**
+2. **Instal dependensi**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **Prepare data directory**
+3. **Siapkan direktori data**
 ```bash
 mkdir data
-# Add your JSON schedule files to the data/ directory
+# Tambahkan file jadwal JSON Anda ke direktori data/
 ```
 
-4. **Run the application**
+4. **Jalankan aplikasi**
 ```bash
 python app.py
 ```
 
-5. **Access the application**
+5. **Akses aplikasi**
 ```
-Open browser to: http://localhost:5000
+Buka browser ke: http://localhost:5000
 ```
 
-### Dependencies
+### Dependensi
 
 ```
 Flask==2.3.0
@@ -360,31 +360,31 @@ Werkzeug==2.3.0
 
 ### Railway
 
-1. Push code to GitHub
-2. Connect repository to Railway
-3. Railway will automatically detect Flask app
-4. Set environment variables if needed
+1. Push kode ke GitHub
+2. Hubungkan repository ke Railway
+3. Railway akan otomatis mendeteksi aplikasi Flask
+4. Atur variabel lingkungan jika diperlukan
 5. Deploy!
 
 ### Render
 
-1. Push code to GitHub
-2. Create new Web Service on Render
-3. Connect GitHub repository
-4. Configure build settings:
+1. Push kode ke GitHub
+2. Buat Web Service baru di Render
+3. Hubungkan repository GitHub
+4. Konfigurasi pengaturan build:
    - Build Command: `pip install -r requirements.txt`
    - Start Command: `gunicorn app:app`
 5. Deploy!
 
 ### Heroku
 
-1. Install Heroku CLI
-2. Login to Heroku
+1. Instal Heroku CLI
+2. Login ke Heroku
 ```bash
 heroku login
 ```
 
-3. Create app
+3. Buat aplikasi
 ```bash
 heroku create your-app-name
 ```
@@ -402,62 +402,61 @@ web: gunicorn app:app
 
 ---
 
-## 🤝 Contributing
+## 🤝 Kontribusi
 
-Contributions are welcome! Please follow these guidelines:
+Kontribusi sangat diterima! Silakan ikuti pedoman ini:
 
-1. **Fork the repository**
-2. **Create a feature branch**
+1. **Fork repository**
+2. **Buat cabang fitur**
 ```bash
 git checkout -b feature/amazing-feature
 ```
 
-3. **Commit your changes**
+3. **Commit perubahan Anda**
 ```bash
-git commit -m 'Add amazing feature'
+git commit -m 'Tambah fitur luar biasa'
 ```
 
-4. **Push to the branch**
+4. **Push ke cabang**
 ```bash
 git push origin feature/amazing-feature
 ```
 
-5. **Open a Pull Request**
+5. **Buka Pull Request**
 
-### Development Guidelines
+### Pedoman Pengembangan
 
-- Follow the existing code style
-- Add comments for complex algorithms
-- Test thoroughly before submitting
-- Update documentation as needed
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+- Ikuti gaya kode yang ada
+- Tambahkan komentar untuk algoritma kompleks
+- Uji secara menyeluruh sebelum mengirim
+- Perbarui dokumentasi sesuai kebutuhan
 
 ---
 
-## 🙏 Acknowledgments
+## 📝 Lisensi
 
-- **Universitas Pamulang** for the academic data and support
-- **Program Studi Teknik Informatika** for the hackathon opportunity
-- **Unpam Nexus** for development collaboration
+Proyek ini dilisensikan di bawah Lisensi MIT - lihat file LICENSE untuk detail.
 
 ---
 
-## 📞 Contact
+## 🙏 Ucapan Terima Kasih
 
-For questions, suggestions, or collaboration:
+- **Universitas Pamulang** untuk data akademik dan dukungan
+- **Program Studi Teknik Informatika** untuk kesempatan hackathon
+- **Unpam Nexus** untuk kolaborasi pengembangan
+
+---
+
+## 📞 Kontak
+
+Untuk pertanyaan, saran, atau kolaborasi:
 - **Linktree**: [https://linktr.ee/mytimeonunpam](https://linktr.ee/mytimeonunpam)
-- **Email**: contact@unpam.ac.id
 
 ---
 
 <div align="center">
 
-**Built with ❤️ by Unpam Nexus**
+**Dibuat dengan ❤️ oleh Unpam Nexus**
 
 © 2026 MTOU — Sistem Monitoring Jadwal Perkuliahan Universitas Pamulang
 
