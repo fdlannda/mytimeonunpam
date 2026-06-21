@@ -53,6 +53,12 @@ Sistem informasi pengingat jadwal kuliah real-time untuk mahasiswa Universitas P
 - **Animasi Halus**: Animasi masuk dan transisi interaktif
 - **Branding UNPAM**: Skema warna Navy (#003366) & Gold (#F5A623)
 
+### Multi-Jenjang Support
+- **Jenjang Pendidikan**: Mendukung S1 (Sarjana), D3 (Diploma), S2 (Magister), dan S3 (Doktor)
+- **Filter Dinamis**: Dropdown jenjang yang terintegrasi dengan jurusan dan semester
+- **URL Terstruktur**: Format URL `/jadwal/<jenjang>/<jurusan>/<semester>/<kelas>` untuk navigasi yang jelas
+- **Statistik Real-Time**: Menampilkan jumlah jenjang, jurusan, semester, dan kelas yang tersedia
+
 ---
 
 ## 🏗️ Arsitektur
@@ -85,7 +91,7 @@ Sistem informasi pengingat jadwal kuliah real-time untuk mahasiswa Universitas P
 │                    Lapisan Data                          │
 │  ┌──────────────────────────────────────────────────┐  │
 │  │        File Jadwal JSON (data/)                   │  │
-│  │  jurusan_semester_kelas.json                       │  │
+│  │  jenjang_jurusan_semester_kelas.json               │  │
 │  └──────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -98,8 +104,9 @@ mytimeonunpam/
 ├── requirements.txt        # Dependensi Python
 ├── Procfile               # Konfigurasi deployment (Gunicorn)
 ├── data/                  # File jadwal JSON per kelas
-│   ├── Teknik_Informatika_1_A.json
-│   ├── Teknik_Informatika_1_B.json
+│   ├── S1_Teknik_Informatika_1_A.json
+│   ├── S1_Teknik_Informatika_1_B.json
+│   ├── S2_Manajemen_1_DUMMY01.json
 │   └── ...
 ├── static/
 │   ├── style.css          # Stylesheet utama dengan sistem desain
@@ -270,8 +277,18 @@ Menentukan minggu akademik saat ini dengan menghitung periode 7 hari dari tangga
 
 ### Format File Jadwal JSON
 
+**Naming Convention**: `jenjang_jurusan_semester_kelas.json`
+
+Contoh:
+- `S1_Teknik_Informatika_1_A.json` (S1 Teknik Informatika Semester 1 Kelas A)
+- `S2_Manajemen_1_DUMMY01.json` (S2 Manajemen Semester 1 Kelas DUMMY01)
+
 ```json
 {
+  "jurusan": "Teknik Informatika",
+  "semester": 1,
+  "kelas": "A",
+  "jenjang": "S1",
   "semester_mulai": "2026-02-17",
   "semester_selesai": "2026-07-04",
   "uts_date": "2026-05-15",
@@ -283,9 +300,10 @@ Menentukan minggu akademik saat ini dengan menghitung periode 7 hari dari tangga
       "jam_mulai": "08:00",
       "jam_selesai": "10:00",
       "mata_kuliah": "Algoritma dan Struktur Data",
+      "sks": 3,
       "dosen": "Dr. Ahmad Fauzi",
       "ruang": "A-301",
-      "mode": "offline",
+      "kode_mk": "22TIF0013",
       "periode": 1
     }
   ]
@@ -294,6 +312,10 @@ Menentukan minggu akademik saat ini dengan menghitung periode 7 hari dari tangga
 
 ### Deskripsi Field
 
+- **jenjang**: Jenjang pendidikan (S1, D3, S2, S3)
+- **jurusan**: Nama program studi
+- **semester**: Nomor semester (1-14)
+- **kelas**: Kode kelas
 - **semester_mulai**: Hari pertama semester
 - **semester_selesai**: Hari terakhir semester
 - **uts_date**: Tanggal ujian tengah semester
@@ -304,9 +326,10 @@ Menentukan minggu akademik saat ini dengan menghitung periode 7 hari dari tangga
   - **jam_mulai**: Waktu mulai kelas (HH:MM)
   - **jam_selesai**: Waktu selesai kelas (HH:MM)
   - **mata_kuliah**: Nama mata kuliah
+  - **sks**: Jumlah SKS
   - **dosen**: Nama dosen
   - **ruang**: Nomor ruangan
-  - **mode**: Mode kelas (offline/online)
+  - **kode_mk**: Kode mata kuliah
   - **periode**: Penugasan periode (1 atau 2)
 
 ---
@@ -335,6 +358,8 @@ pip install -r requirements.txt
 ```bash
 mkdir data
 # Tambahkan file jadwal JSON Anda ke direktori data/
+# Format nama file: jenjang_jurusan_semester_kelas.json
+# Contoh: S1_Teknik_Informatika_1_A.json
 ```
 
 4. **Jalankan aplikasi**
