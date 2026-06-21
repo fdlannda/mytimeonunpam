@@ -45,12 +45,13 @@ def get_available_classes():
 
         try:
 
-            jurusan, semester, kelas = (
+            jenjang, jurusan, semester, kelas = (
                 file.replace(".json", "")
                 .split("_")
             )
 
             classes.append({
+                "jenjang": jenjang,
                 "jurusan": jurusan,
                 "semester": semester,
                 "kelas": kelas
@@ -63,6 +64,7 @@ def get_available_classes():
 
 
 def load_data(
+    jenjang,
     jurusan,
     semester,
     kelas
@@ -70,7 +72,7 @@ def load_data(
 
     file_path = (
         f"data/"
-        f"{jurusan}_{semester}_{kelas}.json"
+        f"{jenjang}_{jurusan}_{semester}_{kelas}.json"
     )
 
     with open(
@@ -492,6 +494,15 @@ def home():
 
     classes = get_available_classes()
 
+    jenjang_list = sorted(
+        list(
+            set(
+                c["jenjang"]
+                for c in classes
+            )
+        )
+    )
+
     jurusan = sorted(
         list(
             set(
@@ -512,6 +523,7 @@ def home():
 
     return render_template(
         "home.html",
+        jenjang_list=jenjang_list,
         jurusan=jurusan,
         semester=semester,
         classes=classes
@@ -524,6 +536,10 @@ def home():
 
 @app.route("/get_classes")
 def get_classes():
+
+    jenjang = request.args.get(
+        "jenjang"
+    )
 
     jurusan = request.args.get(
         "jurusan"
@@ -538,6 +554,8 @@ def get_classes():
     for item in get_available_classes():
 
         if (
+            item["jenjang"] == jenjang
+            and
             item["jurusan"] == jurusan
             and
             item["semester"] == semester
@@ -562,6 +580,10 @@ def get_classes():
 )
 def open_schedule():
 
+    jenjang = request.form[
+        "jenjang"
+    ]
+
     jurusan = request.form[
         "jurusan"
     ]
@@ -576,6 +598,7 @@ def open_schedule():
 
     return redirect(
         f"/jadwal/"
+        f"{jenjang}/"
         f"{jurusan}/"
         f"{semester}/"
         f"{kelas}"
@@ -587,15 +610,17 @@ def open_schedule():
 # ==========================
 
 @app.route(
-    "/jadwal/<jurusan>/<semester>/<kelas>"
+    "/jadwal/<jenjang>/<jurusan>/<semester>/<kelas>"
 )
 def jadwal(
+    jenjang,
     jurusan,
     semester,
     kelas
 ):
 
     data = load_data(
+        jenjang,
         jurusan,
         semester,
         kelas
@@ -613,6 +638,7 @@ def jadwal(
 
     return render_template(
         "schedule.html",
+        jenjang=jenjang,
         jadwal=data["jadwal"],
         next_class=next_class,
         current_class=current_class,

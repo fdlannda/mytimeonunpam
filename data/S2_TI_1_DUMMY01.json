@@ -1,0 +1,79 @@
+{
+  "jurusan": "Teknik Informatika",
+  "semester": 1,
+  "kelas": "DUMMY01",
+  "reguler": "A",
+  "semester_mulai": "2026-02-17",
+  "semester_selesai": "2026-07-04",
+  "uts_date": "2026-05-15",
+  "uas_date": "2026-07-04",
+
+  "jadwal": [
+    {
+      "hari": "Selasa",
+      "jam_mulai": "18:30",
+      "jam_selesai": "21:00",
+      "mata_kuliah": "Advanced Algorithms",
+      "sks": 3,
+      "dosen": "Dr. Hendra Gunawan",
+      "ruang": "V-301",
+      "kode_mk": "S2TI001",
+      "periode": 1
+    },
+    {
+      "hari": "Kamis",
+      "jam_mulai": "18:30",
+      "jam_selesai": "21:00",
+      "mata_kuliah": "Machine Learning",
+      "sks": 3,
+      "dosen": "Prof. Dr. Rina Kusuma",
+      "ruang": "V-301",
+      "kode_mk": "S2TI002",
+      "periode": 1
+    },
+    {
+      "hari": "Sabtu",
+      "jam_mulai": "09:00",
+      "jam_selesai": "12:00",
+      "mata_kuliah": "Data Mining",
+      "sks": 3,
+      "dosen": "Dr. Dian Pratama",
+      "ruang": "V-301",
+      "kode_mk": "S2TI003",
+      "periode": 1
+    },
+    {
+      "hari": "Selasa",
+      "jam_mulai": "18:30",
+      "jam_selesai": "21:00",
+      "mata_kuliah": "Computer Vision",
+      "sks": 3,
+      "dosen": "Dr. Sarah Wijaya",
+      "ruang": "V-301",
+      "kode_mk": "S2TI004",
+      "periode": 2
+    },
+    {
+      "hari": "Kamis",
+      "jam_mulai": "18:30",
+      "jam_selesai": "21:00",
+      "mata_kuliah": "Natural Language Processing",
+      "sks": 3,
+      "dosen": "Dr. Bambang Sutrisno",
+      "ruang": "V-301",
+      "kode_mk": "S2TI005",
+      "periode": 2
+    },
+    {
+      "hari": "Sabtu",
+      "jam_mulai": "09:00",
+      "jam_selesai": "12:00",
+      "mata_kuliah": "Big Data Analytics",
+      "sks": 3,
+      "dosen": "Dr. Citra Dewi",
+      "ruang": "V-301",
+      "kode_mk": "S2TI006",
+      "periode": 2
+    }
+  ]
+}

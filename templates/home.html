@@ -178,6 +178,24 @@
 
                         <div class="field-group">
 
+                            <label for="jenjang">Jenjang</label>
+
+                            <select name="jenjang" id="jenjang" required>
+
+                                <option value="S1">S1 - Sarjana</option>
+
+                                <option value="D3">D3 - Diploma</option>
+
+                                <option value="S2">S2 - Magister</option>
+
+                                <option value="S3">S3 - Doktor</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="field-group">
+
                             <label for="jurusan">Jurusan</label>
 
                             <select name="jurusan" id="jurusan" required>
@@ -466,17 +484,19 @@
 
         async function loadClasses() {
 
+            var jenjang = document.getElementById("jenjang").value;
+
             var jurusan = document.getElementById("jurusan").value;
 
             var semester = document.getElementById("semester").value;
 
 
 
-            if (!jurusan || !semester) {
+            if (!jenjang || !jurusan || !semester) {
 
                 var kelasSelect = document.getElementById("kelas");
 
-                kelasSelect.innerHTML = '<option value="">Pilih Jurusan & Semester</option>';
+                kelasSelect.innerHTML = '<option value="">Pilih Jenjang, Jurusan & Semester</option>';
 
                 return;
 
@@ -486,7 +506,7 @@
 
             try {
 
-                var response = await fetch('/get_classes?jurusan=' + jurusan + '&semester=' + semester);
+                var response = await fetch('/get_classes?jenjang=' + jenjang + '&jurusan=' + jurusan + '&semester=' + semester);
 
                 var data = await response.json();
 
@@ -523,6 +543,8 @@
         }
 
 
+
+        document.getElementById("jenjang").addEventListener("change", loadClasses);
 
         document.getElementById("jurusan").addEventListener("change", loadClasses);
 

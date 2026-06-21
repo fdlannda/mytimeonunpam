@@ -1,0 +1,79 @@
+{
+  "jurusan": "Manajemen",
+  "semester": 1,
+  "kelas": "DUMMY01",
+  "reguler": "A",
+  "semester_mulai": "2026-02-17",
+  "semester_selesai": "2026-07-04",
+  "uts_date": "2026-05-15",
+  "uas_date": "2026-07-04",
+
+  "jadwal": [
+    {
+      "hari": "Senin",
+      "jam_mulai": "18:30",
+      "jam_selesai": "21:00",
+      "mata_kuliah": "Manajemen Strategik",
+      "sks": 3,
+      "dosen": "Dr. Budi Santoso",
+      "ruang": "A-201",
+      "kode_mk": "S2MM001",
+      "periode": 1
+    },
+    {
+      "hari": "Rabu",
+      "jam_mulai": "18:30",
+      "jam_selesai": "21:00",
+      "mata_kuliah": "Metodologi Penelitian",
+      "sks": 3,
+      "dosen": "Prof. Dr. Siti Aminah",
+      "ruang": "A-201",
+      "kode_mk": "S2MM002",
+      "periode": 1
+    },
+    {
+      "hari": "Jumat",
+      "jam_mulai": "18:30",
+      "jam_selesai": "21:00",
+      "mata_kuliah": "Ekonomi Manajerial",
+      "sks": 3,
+      "dosen": "Dr. Ahmad Hidayat",
+      "ruang": "A-201",
+      "kode_mk": "S2MM003",
+      "periode": 1
+    },
+    {
+      "hari": "Senin",
+      "jam_mulai": "18:30",
+      "jam_selesai": "21:00",
+      "mata_kuliah": "Manajemen Keuangan",
+      "sks": 3,
+      "dosen": "Dr. Ratna Dewi",
+      "ruang": "A-201",
+      "kode_mk": "S2MM004",
+      "periode": 2
+    },
+    {
+      "hari": "Rabu",
+      "jam_mulai": "18:30",
+      "jam_selesai": "21:00",
+      "mata_kuliah": "Manajemen Pemasaran",
+      "sks": 3,
+      "dosen": "Dr. Indra Wijaya",
+      "ruang": "A-201",
+      "kode_mk": "S2MM005",
+      "periode": 2
+    },
+    {
+      "hari": "Jumat",
+      "jam_mulai": "18:30",
+      "jam_selesai": "21:00",
+      "mata_kuliah": "Manajemen Sumber Daya Manusia",
+      "sks": 3,
+      "dosen": "Dr. Maya Sari",
+      "ruang": "A-201",
+      "kode_mk": "S2MM006",
+      "periode": 2
+    }
+  ]
+}
