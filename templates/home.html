@@ -66,11 +66,9 @@
 
             <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Dark Mode">
 
-                <svg class="icon-inline" viewBox="0 0 24 24" width="20" height="20">
+                <svg class="icon-inline" viewBox="0 0 24 24" width="20" height="20" id="theme-icon">
 
-                    <path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 0-9-9zm0 16a7 7 0 1 1 7-7 7 7 0 0 1-7 7z" />
-
-                    <path d="M12 7v10M7 12h10" />
+                    <path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0-5a1 1 0 0 0 1 1v2a1 1 0 0 0-2 0V3a1 1 0 0 0 1-1zm0 18a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-1-1zm10-9a1 1 0 0 0-1-1h-2a1 1 0 0 0 0 2h2a1 1 0 0 0 1-1zM5 11a1 1 0 0 0-1 1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1zm12.071-6.071a1 1 0 0 0-1.414 0l-1.414 1.414a1 1 0 0 0 1.414 1.414l1.414-1.414a1 1 0 0 0 0-1.414zM8.757 16.243a1 1 0 0 0-1.414 1.414l-1.414 1.414a1 1 0 0 0 1.414 1.414l1.414-1.414a1 1 0 0 0 0-1.414zm10.314 0a1 1 0 0 0 0 1.414l-1.414 1.414a1 1 0 0 0-1.414-1.414l1.414-1.414a1 1 0 0 0 1.414 0zM8.757 7.757a1 1 0 0 0 1.414-1.414L8.757 4.929a1 1 0 0 0-1.414 1.414l1.414 1.414z" />
 
                 </svg>
 
@@ -342,6 +340,12 @@
 
                 document.body.classList.add("dark");
 
+                updateThemeIcon("dark");
+
+            } else {
+
+                updateThemeIcon("light");
+
             }
 
         }
@@ -352,7 +356,29 @@
 
             document.body.classList.toggle("dark");
 
-            localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+            var isDark = document.body.classList.contains("dark");
+
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+
+            updateThemeIcon(isDark ? "dark" : "light");
+
+        }
+
+
+
+        function updateThemeIcon(theme) {
+
+            var icon = document.getElementById("theme-icon");
+
+            if (theme === "dark") {
+
+                icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />';
+
+            } else {
+
+                icon.innerHTML = '<path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0-5a1 1 0 0 0 1 1v2a1 1 0 0 0-2 0V3a1 1 0 0 0 1-1zm0 18a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-1-1zm10-9a1 1 0 0 0-1-1h-2a1 1 0 0 0 0 2h2a1 1 0 0 0 1-1zM5 11a1 1 0 0 0-1 1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1zm12.071-6.071a1 1 0 0 0-1.414 0l-1.414 1.414a1 1 0 0 0 1.414 1.414l1.414-1.414a1 1 0 0 0 0-1.414zM8.757 16.243a1 1 0 0 0-1.414 1.414l-1.414 1.414a1 1 0 0 0 1.414 1.414l1.414-1.414a1 1 0 0 0 0-1.414zm10.314 0a1 1 0 0 0 0 1.414l-1.414 1.414a1 1 0 0 0-1.414-1.414l1.414-1.414a1 1 0 0 0 1.414 0zM8.757 7.757a1 1 0 0 0 1.414-1.414L8.757 4.929a1 1 0 0 0-1.414 1.414l1.414 1.414z" />';
+
+            }
 
         }
 
