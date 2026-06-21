@@ -82,9 +82,12 @@ def load_data(
     kelas
 ):
 
+    # Replace spaces with underscores in jurusan for filename
+    jurusan_filename = jurusan.replace(" ", "_")
+
     file_path = (
         f"data/"
-        f"{jenjang}_{jurusan}_{semester}_{kelas}.json"
+        f"{jenjang}_{jurusan_filename}_{semester}_{kelas}.json"
     )
 
     with open(
