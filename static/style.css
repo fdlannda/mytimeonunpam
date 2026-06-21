@@ -288,12 +288,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 24px;
-    padding: 14px 24px;
+    gap: 20px;
+    padding: 12px 20px;
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 10px;
-    max-width: 380px;
+    max-width: 480px;
     margin: 0;
 }
 
