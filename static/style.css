@@ -78,6 +78,7 @@ body {
     justify-content: flex-start;
     gap: 10px;
     flex: 1;
+    margin-left: clamp(0px, 2vw, 40px);
 }
 
 .brand-logo {
@@ -220,6 +221,24 @@ body {
     background: var(--gold-surface);
     border-radius: 100px;
     margin-bottom: 12px;
+    animation: eyebrow-entrance 0.8s ease-out forwards;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+@keyframes eyebrow-entrance {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(2px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .hero-content .hero-title {
@@ -432,6 +451,12 @@ body {
     width: 20px;
     height: 20px;
     fill: currentColor;
+}
+
+.select-form .action-btn .btn-logo {
+    height: 24px;
+    width: auto;
+    display: block;
 }
 
 /* ============================================================
@@ -974,6 +999,7 @@ body {
 
 .countdown-line .countdown-text {
     font-weight: 600;
+    color: var(--navy);
 }
 
 .countdown-line .countdown-label .icon-inline {
@@ -1095,6 +1121,34 @@ body {
     color: var(--text-soft);
 }
 
+.whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--navy);
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 10px;
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.whatsapp-btn:hover {
+    background: var(--navy-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 51, 102, 0.25);
+}
+
+.whatsapp-btn .whatsapp-icon {
+    fill: #fff;
+    width: 16px;
+    height: 16px;
+}
+
 /* ============================================================
    DARK MODE
 ============================================================ */
@@ -1188,6 +1242,10 @@ body {
     color: var(--gold);
 }
 
+.dark .countdown-line .countdown-text {
+    color: var(--gold);
+}
+
 .dark .info-item .info-value {
     color: #fff;
 }
@@ -1207,6 +1265,12 @@ body {
 .dark .panel-badge {
     background: rgba(255, 255, 255, 0.06);
     color: var(--text-soft);
+}
+
+.dark .hero-content .eyebrow {
+    background: rgba(245, 166, 35, 0.15);
+    color: var(--gold);
+    border: 1px solid rgba(245, 166, 35, 0.3);
 }
 
 /* ============================================================
