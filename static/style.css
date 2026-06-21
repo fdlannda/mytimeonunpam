@@ -161,7 +161,7 @@ body {
     flex-shrink: 0;
 }
 
-.back-btn, .theme-btn {
+.back-btn, .theme-btn, .linktree-btn {
     background: transparent;
     border: none;
     color: var(--navy);
@@ -180,12 +180,32 @@ body {
     white-space: nowrap;
 }
 
-.back-btn:hover, .theme-btn:hover {
+.linktree-btn {
+    color: var(--navy);
+    background: rgba(0, 51, 102, 0.08);
+    border: 1px solid rgba(0, 51, 102, 0.15);
+    font-weight: 500;
+}
+
+.cs-badge {
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+}
+
+.back-btn:hover, .theme-btn:hover, .linktree-btn:hover {
     background: var(--navy-surface);
 }
 
+.linktree-btn:hover {
+    background: rgba(0, 51, 102, 0.15);
+    color: var(--navy);
+    border-color: rgba(0, 51, 102, 0.25);
+}
+
 .back-btn .icon-inline,
-.theme-btn .icon-inline {
+.theme-btn .icon-inline,
+.linktree-btn .icon-inline {
     width: 18px;
     height: 18px;
     fill: currentColor;
