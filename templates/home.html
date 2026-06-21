@@ -518,7 +518,7 @@
 
             try {
 
-                var response = await fetch('/get_classes?jenjang=' + jenjang + '&jurusan=' + jurusan + '&semester=' + semester);
+                var response = await fetch('/get_classes?jenjang=' + encodeURIComponent(jenjang) + '&jurusan=' + encodeURIComponent(jurusan) + '&semester=' + encodeURIComponent(semester));
 
                 var data = await response.json();
 
