@@ -1,7 +1,7 @@
 import os
 import json
 from datetime import datetime, timedelta, timezone
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 from flask import (
     Flask,
     render_template,
@@ -558,6 +558,10 @@ def get_classes():
         "jurusan"
     )
 
+    # Decode URL-encoded jurusan
+    if jurusan:
+        jurusan = unquote(jurusan)
+
     semester = request.args.get(
         "semester"
     )
@@ -631,6 +635,9 @@ def jadwal(
     semester,
     kelas
 ):
+
+    # Decode URL-encoded jurusan (e.g., TEKNIK%20INFORMATIKA -> TEKNIK INFORMATIKA)
+    jurusan = unquote(jurusan)
 
     data = load_data(
         jenjang,
