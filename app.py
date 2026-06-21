@@ -45,10 +45,22 @@ def get_available_classes():
 
         try:
 
-            jenjang, jurusan, semester, kelas = (
-                file.replace(".json", "")
-                .split("_")
-            )
+            parts = file.replace(".json", "").split("_")
+
+            # Format: JENJANG_JURUSAN_SEMESTER_KELAS
+            # Jurusan might contain spaces, so we need to handle that
+            # jenjang = first part
+            # kelas = last part
+            # semester = second to last part
+            # jurusan = everything in between (joined with spaces)
+
+            if len(parts) < 4:
+                continue
+
+            jenjang = parts[0]
+            kelas = parts[-1]
+            semester = parts[-2]
+            jurusan = " ".join(parts[1:-2])
 
             classes.append({
                 "jenjang": jenjang,
